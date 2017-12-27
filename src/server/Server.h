@@ -7,7 +7,20 @@ Exercise name: Ex4
 
 #ifndef EX4_SERVER_H
 #define EX4_SERVER_H
+
+#include <vector>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <cstring>
+#include <unistd.h>
+
 using namespace std;
+
+struct ClientConnectionParam {
+    int serverSocket;
+    struct sockaddr_in clientAddress;
+    socklen_t clientAddressLen;
+};
 
 class Server {
 public:
@@ -36,12 +49,24 @@ public:
     /**
      * Start function to open sockets for both players.
      */
-    void start();
+    ClientConnectionParam start();
 
     /**
      * Stop function to close sockets.
      */
     void stop();
+
+    void setPort(int port);
+
+    void setServerSocket(int serverSocket);
+
+    void setClientSocket1(int clientSocket1);
+
+    void setClientSocket2(int clientSocket2);
+
+    void setListOfGames(const vector<string> &listOfGames);
+
+    static void *waitForClients(void *clientConnectionParam);
 
     /**
      * Send message for first player that second player
@@ -56,12 +81,22 @@ public:
      */
     StartGameAgain sendAndReceiveMoves();
 
+    int getServerSocket() const;
+
+    int getClientSocket1() const;
+
+    int getClientSocket2() const;
+
+    const vector<string> &getListOfGames() const;
+
 private:
     int port;
     int serverSocket;
 
     int clientSocket1;
     int clientSocket2;
+
+    vector<string> listOfGames;
 
     /**
      * Set port from input parameter file.

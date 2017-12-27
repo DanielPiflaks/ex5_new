@@ -7,15 +7,25 @@ Exercise name: Ex4
 
 #include <iostream>
 #include <cstdlib>
+#include <vector>
 #include "Server.h"
+#include <pthread.h>
+
 
 int main() {
     //Name of file with port and IP data.
     const char *fileName = "ServerConnectionSettings.txt";
+
+    pthread_t threadWaitForClient;
+
+
     try {
-        Server serverGame(fileName);
-        serverGame.start();
-        serverGame.stop();
+        Server server(fileName);
+        ClientConnectionParam connectionParam = server.start();
+        pthread_create(&threadWaitForClient, NULL, &Server::waitForClients, (void *) &connectionParam);
+
+        //server.start();
+        server.stop();
     } catch (const char *msg) {
         //If something went wrong print the reason.
         cout << "Cannot start server. Reason: " << msg << endl;
@@ -24,3 +34,4 @@ int main() {
 
     return 0;
 }
+

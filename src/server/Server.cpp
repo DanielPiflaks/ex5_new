@@ -13,7 +13,7 @@ Exercise name: Ex4
 #include <fstream>
 #include "Server.h"
 
-#define MAX_CONNECTED_CLIENTS 2
+#define MAX_CONNECTED_CLIENTS 30
 
 Server::Server(const char *fileName) {
     //Set port from parameter file.
@@ -23,7 +23,7 @@ Server::Server(const char *fileName) {
 Server::Server(int port) : port(port) {
 }
 
-void Server::start() {
+ClientConnectionParam Server::start() {
     //Create server socket.
     serverSocket = socket(AF_INET, SOCK_STREAM, 0);
     //Check that server socket opened properly.
@@ -56,7 +56,23 @@ void Server::start() {
     socklen_t clientAddressLen;
     memset(&clientAddressLen, 0, sizeof(clientAddressLen));
 
-    Server::StartGameAgain startGameAgain = Server::StartGame;
+    ClientConnectionParam connectionParam;
+    connectionParam.serverSocket = serverSocket;
+    connectionParam.clientAddress = clientAddress;
+    connectionParam.clientAddressLen = clientAddressLen;
+
+    return connectionParam;
+
+    /*cout << "Waiting for client connections..." << endl;
+    // Accept first client.
+    clientSocket1 = accept(serverSocket, (struct sockaddr *) &clientAddress, &clientAddressLen);
+    //Check that socket for first client opened correctly.
+    if (clientSocket1 == -1) {
+        throw "Error on accept";
+    }
+    cout << "First client connected" << endl;*/
+
+/*    Server::StartGameAgain startGameAgain = Server::StartGame;
     while (startGameAgain == Server::StartGame){
         cout << "Waiting for client connections..." << endl;
         // Accept first client.
@@ -94,7 +110,7 @@ void Server::start() {
             close(clientSocket1);
             close(clientSocket2);
         }
-    }
+    }*/
 }
 
 void Server::notifyFirstPlayerStart() {
@@ -204,3 +220,51 @@ void Server::stop() {
 int Server::getPort() const {
     return port;
 }
+
+int Server::getServerSocket() const {
+    return serverSocket;
+}
+
+int Server::getClientSocket1() const {
+    return clientSocket1;
+}
+
+int Server::getClientSocket2() const {
+    return clientSocket2;
+}
+
+const vector<string> &Server::getListOfGames() const {
+    return listOfGames;
+}
+
+void Server::setPort(int port) {
+    Server::port = port;
+}
+
+void Server::setServerSocket(int serverSocket) {
+    Server::serverSocket = serverSocket;
+}
+
+void Server::setClientSocket1(int clientSocket1) {
+    Server::clientSocket1 = clientSocket1;
+}
+
+void Server::setClientSocket2(int clientSocket2) {
+    Server::clientSocket2 = clientSocket2;
+}
+
+void Server::setListOfGames(const vector<string> &listOfGames) {
+    Server::listOfGames = listOfGames;
+}
+
+void *Server::waitForClients(void *clientConnectionParam) {
+    vector<pthread_t> threadsVector;
+    int threadCounter = 0;
+
+    int counter = 0;
+    while (counter < 5) {
+        //pthread_create(&threadsVector[threadCounter], NULL, start, NULL);
+    }
+}
+
+
