@@ -260,11 +260,26 @@ void Server::setListOfGames(const vector<string> &listOfGames) {
 void *Server::waitForClients(void *clientConnectionParam) {
     vector<pthread_t> threadsVector;
     int threadCounter = 0;
+    ClientConnectionParam *connectionParam = (struct ClientConnectionParam *) clientConnectionParam;
 
     int counter = 0;
-    while (counter < 5) {
-        //pthread_create(&threadsVector[threadCounter], NULL, start, NULL);
+    while (counter < 15) {
+        int clientSocket = connectToClient(connectionParam);
+        //pthread_create(&threadsVector[threadCounter], NULL, connectToClient, clientConnectionParam);
+        counter++;
     }
 }
 
+int Server::connectToClient(ClientConnectionParam *parameters) {
+    cout << "Waiting for client connections..." << endl;
+    // Accept first client.
+    int clientSocket = accept(parameters->serverSocket, (struct sockaddr *) &parameters->clientAddress,
+                              &parameters->clientAddressLen);
+    //Check that socket for first client opened correctly.
+    if (clientSocket == -1) {
+        throw "Error on accept";
+    }
+    cout << "First client connected" << endl;
+    return clientSocket;
+}
 

@@ -22,7 +22,7 @@ int main() {
     try {
         Server server(fileName);
         ClientConnectionParam connectionParam = server.start();
-        pthread_create(&threadWaitForClient, NULL, &Server::waitForClients, (void *) &connectionParam);
+        pthread_create(&threadWaitForClient, NULL, Server::waitForClients, (void *) &connectionParam);
 
         //server.start();
         server.stop();

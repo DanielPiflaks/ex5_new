@@ -51,6 +51,8 @@ public:
      */
     ClientConnectionParam start();
 
+    static int connectToClient(ClientConnectionParam *parameters);
+
     /**
      * Stop function to close sockets.
      */
