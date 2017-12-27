@@ -9,8 +9,7 @@ CommandsManager::CommandsManager(Client client) : client(client) {
     // Add more commands...
 }
 
-void CommandsManager::executeCommand(string
-                                     command, vector<string> args) {
+void CommandsManager::executeCommand(string command, vector<string> args) {
     Command *commandObj = commandsMap[command];
     commandObj->execute(args);
 }

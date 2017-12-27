@@ -11,11 +11,11 @@
 
 class StartGameCommand : public Command {
 public:
-    explicit StartGameCommand(Server server);
+    explicit StartGameCommand(Server *server);
 
     virtual void execute(vector<string> args);
 private:
-    Server server;
+    Server *server;
 };
 
 

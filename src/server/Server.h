@@ -11,8 +11,8 @@ Exercise name: Ex4
 #include <vector>
 #include <sys/socket.h>
 #include <netinet/in.h>
-#include <cstring>
 #include <unistd.h>
+#include <string>
 
 using namespace std;
 
@@ -34,11 +34,6 @@ public:
      */
     explicit Server(const char *fileName);
 
-    /**
-     * Getter
-     * @return port number.
-     */
-    int getPort() const;
 
     /**
      * Constructor.
@@ -51,24 +46,12 @@ public:
      */
     ClientConnectionParam start();
 
-    static int connectToClient(ClientConnectionParam *parameters);
+    //static int connectToClient(ClientConnectionParam *parameters);
 
     /**
      * Stop function to close sockets.
      */
     void stop();
-
-    void setPort(int port);
-
-    void setServerSocket(int serverSocket);
-
-    void setClientSocket1(int clientSocket1);
-
-    void setClientSocket2(int clientSocket2);
-
-    void setListOfGames(const vector<string> &listOfGames);
-
-    static void *waitForClients(void *clientConnectionParam);
 
     /**
      * Send message for first player that second player
@@ -83,13 +66,7 @@ public:
      */
     StartGameAgain sendAndReceiveMoves();
 
-    int getServerSocket() const;
-
-    int getClientSocket1() const;
-
-    int getClientSocket2() const;
-
-    const vector<string> &getListOfGames() const;
+    static string receive(int clientSocket);
 
 private:
     int port;
@@ -98,7 +75,6 @@ private:
     int clientSocket1;
     int clientSocket2;
 
-    vector<string> listOfGames;
 
     /**
      * Set port from input parameter file.

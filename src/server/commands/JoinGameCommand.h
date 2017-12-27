@@ -11,11 +11,11 @@
 
 class JoinGameCommand : public Command {
 public:
-    explicit JoinGameCommand(Server server);
+    explicit JoinGameCommand(Server *server);
 
     virtual void execute(vector<string> args);
 private:
-    Server server;
+    Server *server;
 };
 
 

@@ -1,5 +1,5 @@
 //
-// Created by danielpiflaks on 24/12/17.
+// Created by danielpiflaks on 27/12/17.
 //
 
 #ifndef EX5_COMMANDSMANAGER_H
@@ -12,13 +12,12 @@
 
 class CommandsManager {
 public:
-    explicit CommandsManager(Server server);
+    explicit CommandsManager(Server *server);
     ~CommandsManager();
     void executeCommand(string command,
                         vector<string> args);
-
 private:
-    Server server;
+    Server *server;
     map<string, Command *> commandsMap;
 };
 

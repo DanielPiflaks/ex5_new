@@ -4,7 +4,7 @@
 
 #include "GetListGamesCommand.h"
 
-GetListGamesCommand::GetListGamesCommand(Server server): server(server){};
+GetListGamesCommand::GetListGamesCommand(Server *server): server(server){};
 
 void GetListGamesCommand::execute(vector<string> args){
 

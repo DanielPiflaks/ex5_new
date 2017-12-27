@@ -4,7 +4,7 @@
 
 #include "CloseGameCommand.h"
 
-CloseGameCommand::CloseGameCommand(Server server): server(server) {};
+CloseGameCommand::CloseGameCommand(Server *server): server(server) {};
 
 void CloseGameCommand::execute(vector<string> args) {
 

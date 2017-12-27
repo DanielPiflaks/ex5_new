@@ -11,11 +11,11 @@
 
 class PlayTurnCommand : public Command {
 public:
-    explicit PlayTurnCommand(Server server);
+    explicit PlayTurnCommand(Server *server);
 
     virtual void execute(vector<string> args);
 private:
-    Server server;
+    Server *server;
 };
 
 

@@ -4,7 +4,7 @@
 
 #include "PlayTurnCommand.h"
 
-PlayTurnCommand::PlayTurnCommand(Server server): server(server) {};
+PlayTurnCommand::PlayTurnCommand(Server *server): server(server) {};
 
 void PlayTurnCommand::execute(vector<string> args){
 

@@ -9,6 +9,8 @@ Exercise name: Ex4
 #include <cstdlib>
 #include <vector>
 #include "Server.h"
+#include "commands/CommandsManager.h"
+#include "HandelClient.h"
 #include <pthread.h>
 
 
@@ -20,12 +22,16 @@ int main() {
 
 
     try {
-        Server server(fileName);
-        ClientConnectionParam connectionParam = server.start();
-        pthread_create(&threadWaitForClient, NULL, Server::waitForClients, (void *) &connectionParam);
+        Server *server = new Server(fileName);
+        CommandsManager *commandsManager = new CommandsManager(server);
+        ClientConnectionParam connectionParam = server->start();
+        HandelClientParams handelClientParams;
+        handelClientParams.connectionParam = connectionParam;
+        handelClientParams.commandsManager = commandsManager;
+        pthread_create(&threadWaitForClient, NULL, HandelClient::waitForClients, (void *) &handelClientParams);
 
         //server.start();
-        server.stop();
+        server->stop();
     } catch (const char *msg) {
         //If something went wrong print the reason.
         cout << "Cannot start server. Reason: " << msg << endl;

@@ -217,60 +217,38 @@ void Server::stop() {
     close(serverSocket);
 }
 
-int Server::getPort() const {
-    return port;
+string Server::receive(int clientSocket) {
+    long n;
+    string message;
+
+    //Read from 1st socket.
+    n = read(clientSocket, &message, sizeof(message));
+    //If reading failed.
+    if (n == -1) {
+        throw "Error reading from client.";
+    }
+    return message;
 }
 
-int Server::getServerSocket() const {
-    return serverSocket;
-}
 
-int Server::getClientSocket1() const {
-    return clientSocket1;
-}
-
-int Server::getClientSocket2() const {
-    return clientSocket2;
-}
-
-const vector<string> &Server::getListOfGames() const {
-    return listOfGames;
-}
-
-void Server::setPort(int port) {
-    Server::port = port;
-}
-
-void Server::setServerSocket(int serverSocket) {
-    Server::serverSocket = serverSocket;
-}
-
-void Server::setClientSocket1(int clientSocket1) {
-    Server::clientSocket1 = clientSocket1;
-}
-
-void Server::setClientSocket2(int clientSocket2) {
-    Server::clientSocket2 = clientSocket2;
-}
-
-void Server::setListOfGames(const vector<string> &listOfGames) {
-    Server::listOfGames = listOfGames;
-}
-
-void *Server::waitForClients(void *clientConnectionParam) {
+/*void *Server::waitForClients(void *clientConnectionParam) {
     vector<pthread_t> threadsVector;
     int threadCounter = 0;
+
     ClientConnectionParam *connectionParam = (struct ClientConnectionParam *) clientConnectionParam;
 
     int counter = 0;
     while (counter < 15) {
         int clientSocket = connectToClient(connectionParam);
+        HandelClientParam handleClientParam;
+        handleClientParam.clientSocket = clientSocket;
+        //handleClientParam.commandsManager
         //pthread_create(&threadsVector[threadCounter], NULL, connectToClient, clientConnectionParam);
         counter++;
     }
-}
+}*/
 
-int Server::connectToClient(ClientConnectionParam *parameters) {
+/*int Server::connectToClient(ClientConnectionParam *parameters) {
     cout << "Waiting for client connections..." << endl;
     // Accept first client.
     int clientSocket = accept(parameters->serverSocket, (struct sockaddr *) &parameters->clientAddress,
@@ -281,5 +259,9 @@ int Server::connectToClient(ClientConnectionParam *parameters) {
     }
     cout << "First client connected" << endl;
     return clientSocket;
-}
+}*/
+
+/*void *Server::handleClient(void *clientSocket) {
+    return NULL;
+}*/
 

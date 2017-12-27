@@ -1,7 +1,8 @@
 //
-// Created by danielpiflaks on 24/12/17.
+// Created by danielpiflaks on 27/12/17.
 //
 
+#include <iostream>
 #include "CommandsManager.h"
 #include "StartGameCommand.h"
 #include "GetListGamesCommand.h"
@@ -9,7 +10,7 @@
 #include "PlayTurnCommand.h"
 #include "CloseGameCommand.h"
 
-CommandsManager::CommandsManager(Server server) : server(server) {
+CommandsManager::CommandsManager(Server *server) : server(server) {
     commandsMap["start"] = new StartGameCommand(server);
     commandsMap["list_games"] = new GetListGamesCommand(server);
     commandsMap["join"] = new JoinGameCommand(server);
@@ -19,6 +20,12 @@ CommandsManager::CommandsManager(Server server) : server(server) {
 
 void CommandsManager::executeCommand(string
                                      command, vector<string> args) {
+    map<string, Command *>::iterator it = commandsMap.find(command);
+    if (it == commandsMap.end()){
+        cout << "There is no such command!";
+        return;
+    }
+
     Command *commandObj = commandsMap[command];
     commandObj->execute(args);
 }

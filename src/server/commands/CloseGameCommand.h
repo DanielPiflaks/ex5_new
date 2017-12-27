@@ -11,11 +11,11 @@
 
 class CloseGameCommand : public Command {
 public:
-    explicit CloseGameCommand(Server server);
+    explicit CloseGameCommand(Server *server);
 
     virtual void execute(vector<string> args);
 private:
-    Server server;
+    Server *server;
 };
 
 
