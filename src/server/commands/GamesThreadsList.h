@@ -6,12 +6,17 @@
 #define EX5_GAMESTHREADSLIST_H
 
 
+#include <sys/param.h>
+#include <iostream>
+
+using namespace std;
+
 class GamesThreadsList {
 
 public:
     static GamesThreadsList *getThreadsList();
 
-    void addToList();
+    void addToList(pthread_t threadName);
 
 private:
     GamesThreadsList() {}; // Private c'tor

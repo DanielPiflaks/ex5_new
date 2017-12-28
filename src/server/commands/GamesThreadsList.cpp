@@ -16,7 +16,7 @@ GamesThreadsList *GamesThreadsList::getThreadsList()
     return threadsList;
 }
 
-void GamesThreadsList::addToList(thread_t threadName)
+void GamesThreadsList::addToList(pthread_t threadName)
 {
     cout << "Method of the Singleton class" << endl;
 }
