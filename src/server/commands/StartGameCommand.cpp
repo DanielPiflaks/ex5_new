@@ -4,9 +4,8 @@
 
 #include "StartGameCommand.h"
 
-
 StartGameCommand::StartGameCommand(Server *server): server(server) {};
 
-void StartGameCommand::execute(vector<string> args){
+void StartGameCommand::execute(vector<string> args) {
 
 }

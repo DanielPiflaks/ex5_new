@@ -7,19 +7,18 @@ Exercise name: Ex4
 
 #include <iostream>
 #include <cstdlib>
-#include <vector>
 #include "Server.h"
 #include "commands/CommandsManager.h"
+#include "commands/GamesThreadsList.h"
 #include "HandelClient.h"
-#include <pthread.h>
 
 
 int main() {
     //Name of file with port and IP data.
     const char *fileName = "ServerConnectionSettings.txt";
 
-    pthread_t threadWaitForClient;
 
+    pthread_t threadWaitForClient;
 
     try {
         Server *server = new Server(fileName);
@@ -29,6 +28,7 @@ int main() {
         handelClientParams.connectionParam = connectionParam;
         handelClientParams.commandsManager = commandsManager;
         pthread_create(&threadWaitForClient, NULL, HandelClient::waitForClients, (void *) &handelClientParams);
+        GamesThreadsList *threadsList;
 
         //server.start();
         server->stop();

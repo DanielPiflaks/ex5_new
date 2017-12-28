@@ -7,16 +7,17 @@
 
 #include "Server.h"
 #include "../client/commands/CommandsManager.h"
+
 #include <iostream>
 
-struct HandelClientParams{
+struct HandelClientParams {
     struct ClientConnectionParam connectionParam;
     CommandsManager *commandsManager;
     int clientSocket;
 };
 
 
-class HandelClient{
+class HandelClient {
 public:
     static void *waitForClients(void *handleClientParam);
 
@@ -24,7 +25,6 @@ public:
 
     static int connectToClient(ClientConnectionParam parameters);
 };
-
 
 
 #endif //EX5_HANDELCLIENT_H
