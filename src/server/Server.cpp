@@ -113,10 +113,10 @@ ClientConnectionParam Server::start() {
     }*/
 }
 
-void Server::notifyFirstPlayerStart() {
+void Server::notifyFirstPlayerStart(int clientSocket) {
     const int trueParam = 1;
     //Write to socket 1.
-    long n = write(clientSocket1, &trueParam, sizeof(trueParam));
+    long n = write(clientSocket, &trueParam, sizeof(trueParam));
     if (n == -1) {
         cout << "Error writing to socket" << endl;
         return;
@@ -228,6 +228,14 @@ string Server::receive(int clientSocket) {
         throw "Error reading from client.";
     }
     return message;
+}
+
+void Server::send(int clientSocket, string param) {
+    long n = write(clientSocket, &param, param.size());
+    if (n == -1) {
+        cout << "Error writing to socket" << endl;
+        return;
+    }
 }
 
 

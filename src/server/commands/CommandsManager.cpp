@@ -7,16 +7,13 @@
 #include "StartGameCommand.h"
 #include "GetListGamesCommand.h"
 #include "JoinGameCommand.h"
-#include "PlayTurnCommand.h"
 #include "CloseGameCommand.h"
 
 CommandsManager::CommandsManager(Server *server) : server(server) {
     commandsMap["start"] = new StartGameCommand(server);
     commandsMap["list_games"] = new GetListGamesCommand(server);
     commandsMap["join"] = new JoinGameCommand(server);
-    commandsMap["play"] = new PlayTurnCommand(server);
     commandsMap["close"] = new CloseGameCommand(server);
-
 }
 
 void CommandsManager::executeCommand(string

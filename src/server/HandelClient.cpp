@@ -3,6 +3,8 @@
 //
 
 #include <algorithm>
+#include <cstdio>
+#include <sstream>
 #include "HandelClient.h"
 
 
@@ -38,37 +40,29 @@ int HandelClient::connectToClient(ClientConnectionParam parameters) {
 }
 
 void *HandelClient::handleClient(void *handleClientParam) {
-    const char paramTokenStart = '<';
-    const char paramTokenEnd = '>';
     HandelClientParams *handelClient = (struct HandelClientParams *) handleClientParam;
 
     string receivedMessage = Server::receive(handelClient->clientSocket);
 
     vector<string> args;
-    unsigned long startArgPlace = 0;
-    unsigned long endArgPlace = 0;
-    do {
-        startArgPlace = receivedMessage.find(paramTokenStart, startArgPlace);
-        if (startArgPlace == string::npos) {
-            break;
-        }
 
-        endArgPlace = receivedMessage.find(paramTokenEnd, endArgPlace);
-        if (endArgPlace == string::npos) {
-            break;
-        }
-        string arg = receivedMessage.substr(startArgPlace + 1, endArgPlace - 1);
-        args.push_back(arg);
+    //Convert int to string.
+    stringstream ss;
+    ss << handelClient->clientSocket << endl;
+    string clientSocketString = ss.str();
 
-    } while (true);
+    args.push_back(clientSocketString);
 
-    startArgPlace = receivedMessage.find(paramTokenStart);
+    unsigned long startArgPlace = receivedMessage.find(' ');
     string command;
     if (startArgPlace == string::npos) {
         command = receivedMessage;
     } else {
         command = receivedMessage.substr(0, startArgPlace - 1);
     }
+
+    string arg = receivedMessage.substr(startArgPlace + 1, receivedMessage.size());
+    args.push_back(arg);
 
     command.erase(remove_if(command.begin(), command.end(), ::isspace), command.end());
     handelClient->commandsManager->executeCommand(command, args);

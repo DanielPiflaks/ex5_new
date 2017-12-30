@@ -57,7 +57,7 @@ public:
      * Send message for first player that second player
      * connected to begin the game.
      */
-    void notifyFirstPlayerStart();
+    void notifyFirstPlayerStart(int clientSocket);
 
     /**
      * receive message from socket1 and send it to socket2,
@@ -68,6 +68,7 @@ public:
 
     static string receive(int clientSocket);
 
+    void send(int clientSocket, string param);
 private:
     int port;
     int serverSocket;

@@ -6,8 +6,7 @@
 #define EX5_HANDELCLIENT_H
 
 #include "Server.h"
-#include "../client/commands/CommandsManager.h"
-
+#include "commands/CommandsManager.h"
 #include <iostream>
 
 struct HandelClientParams {

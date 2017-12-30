@@ -9,8 +9,8 @@ Exercise name: Ex4
 #include <cstdlib>
 #include "Server.h"
 #include "commands/CommandsManager.h"
-#include "commands/GamesThreadsList.h"
 #include "HandelClient.h"
+#include "commands/GameManager.h"
 
 
 int main() {
@@ -28,7 +28,6 @@ int main() {
         handelClientParams.connectionParam = connectionParam;
         handelClientParams.commandsManager = commandsManager;
         pthread_create(&threadWaitForClient, NULL, HandelClient::waitForClients, (void *) &handelClientParams);
-        GamesThreadsList *threadsList;
 
         //server.start();
         server->stop();
