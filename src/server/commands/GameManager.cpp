@@ -74,6 +74,9 @@ void *GameManager::runGame(void *gameParameters) {
     int secondPlayer = params->secondPlayerSocket;
     Server *server = params->server;
 
+    //Notify first player to start.
+    server->send(firstPlayer, "1");
+
     string message;
     while (true) {
         //Read from 1st socket.

@@ -19,6 +19,7 @@ void JoinGameCommand::execute(vector<string> args) {
     //Get game manager.
     GameManager *gameManager = GameManager::getGameManager();
     if (gameManager->checkIfGameExist(wantedGameJoin)) {
+        server->send(clientSocket, "Valid Game");
         server->send(clientSocket, "2");
         gameManager->createGame(clientSocket, wantedGameJoin, server);
     } else {
