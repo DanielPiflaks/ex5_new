@@ -12,6 +12,7 @@ Exercise name: Ex4
 #include <unistd.h>
 #include <fstream>
 #include <netdb.h>
+#include <limits>
 #include "Client.h"
 
 Client::Client(char *serverIP, int serverPort) :
@@ -177,13 +178,9 @@ void Client::setIpAndPortFromFile(const char *fileName) {
     }
 }
 
-void Client::sendEndGameMessage() {
-    //Set wanted content of massage.
-    const char *endGameMessage = "End";
+/*void Client::sendEndGameMessage() {
     //Create message of move in wanted format.
     char endGameBuffer[7] = "End";
-
-    //strcpy(endGameBuffer, endGameMessage);
 
     //Write the massage into the socket.
     long check = write(clientSocket, &endGameBuffer, sizeof(endGameBuffer));
@@ -191,15 +188,11 @@ void Client::sendEndGameMessage() {
     if (check == -1) {
         throw "Error writing row coordinate";
     }
-}
+}*/
 
-void Client::sendNoPossibleMovesMessage() {
-    //Set wanted content of massage.
-    const char *noMoveMessage = "NoMove";
+/*void Client::sendNoPossibleMovesMessage() {
     //Create message of move in wanted format.
     char noMoveBuffer[7] = "NoMove";
-
-    //strcpy(noMoveBuffer, noMoveMessage);
 
     //Write the massage into the socket.
     long check = write(clientSocket, &noMoveBuffer, sizeof(noMoveBuffer));
@@ -207,7 +200,7 @@ void Client::sendNoPossibleMovesMessage() {
     if (check == -1) {
         throw "Error writing row coordinate";
     }
-}
+}*/
 
 void Client::disconnectServer() {
     close(clientSocket);
@@ -219,4 +212,79 @@ const string &Client::getServerIP() const {
 
 int Client::getServerPort() const {
     return serverPort;
+}
+
+int Client::receiveOptionFromClient() {
+    bool waitingForInput = true;
+    int input;
+    while (waitingForInput) {
+        cout << "please choose one of the following options:" << endl;
+        cout << "1. start new game" << endl;
+        cout << "2. get list of optional games to play" << endl;
+        cout << "3. join exiting game" << endl;
+
+        cin >> input;
+
+        cin.clear();
+        cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+
+        switch (input) {
+            case 1: {
+                cout << "please choose name for new game" << endl;
+                char *gameName;
+                cin >> gameName;
+                char massage[50];
+                strcpy(massage, "start <");
+                strcat(massage, ">");
+                strcat(massage, gameName);
+                sendMassageToServer(massage);
+
+                cin.ignore();
+                cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+
+                waitingForInput = false;
+                break;
+            }
+            case 2: {
+                char *massage;
+                strcpy(massage, "list_games");
+                sendMassageToServer(massage);
+
+                waitingForInput = false;
+                break;
+            }
+            case 3: {
+                cout << "please choose name for new game" << endl;
+                char *gameName;
+                cin >> gameName;
+                char massage[50];
+                strcpy(massage, "join <");
+                strcat(massage, gameName);
+                strcat(massage, ">");
+                sendMassageToServer(massage);
+
+                cin.ignore();
+                cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+
+                waitingForInput = false;
+                break;
+            }
+            default: {
+                break;
+            }
+        }
+    }
+}
+
+void Client::sendMassageToServer(char *massage) {
+    char massageBuffer[50];
+
+    strcpy(massageBuffer, massage);
+
+    //Write the massage into the socket.
+    long check = write(clientSocket, &massageBuffer, sizeof(massageBuffer));
+    //If writing failed.
+    if (check == -1) {
+        throw "Error writing to server";
+    }
 }

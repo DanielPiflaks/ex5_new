@@ -53,13 +53,13 @@ public:
      * Create and send to socket massage in order to notify
      * the server that the game ended.
      */
-    void sendEndGameMessage();
+    //void sendEndGameMessage();
 
     /**
      * Create and send to socket massage in order to notify
      * the other player that this player has no moves.
      */
-    void sendNoPossibleMovesMessage();
+    //void sendNoPossibleMovesMessage();
 
     /**
     *Read massage from socket about other player latest move.
@@ -94,6 +94,14 @@ public:
      * @return server port.
      */
     int getServerPort() const;
+
+    void sendMassageToServer(char *massage);
+
+    /**
+     * print client menu of options, receive his input for chosen option.
+     * @return
+     */
+    int receiveOptionFromClient();
 
 private:
     string serverIP;

@@ -57,6 +57,6 @@ map<BoardCoordinates, vector<BoardCoordinates> > RemotePlayer::playOneTurn() {
 }
 
 void RemotePlayer::endGameFunction() {
-    client->sendEndGameMessage();
+    client->sendMassageToServer("End");
     client->disconnectServer();
 }
