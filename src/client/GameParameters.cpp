@@ -50,8 +50,10 @@ GameParameters::GameParameters(PlayerOptions player1Type, char player1Symbol, Pl
             //Notify player that server waiting to 2nd player.
             cout << "Waiting for other player to join..." << endl;
             //Wait for another massage from server, it will be receive only after both players connected.
-            int getStartGame = client->getStartGameNotification();
-            if (getStartGame != 1) {
+            string message = client->receive();
+            int startGameNotification;
+            sscanf(message.c_str(), "%d", &startGameNotification);
+            if (startGameNotification != 1) {
                 throw "Not valid start game notification";
             }
         }
