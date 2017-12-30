@@ -223,7 +223,7 @@ int Client::receiveOptionFromClient() {
         switch (input) {
             case 1: {
                 cout << "please choose name for new game" << endl;
-                char *gameName;
+                string gameName;
                 cin >> gameName;
                 message = "start ";
                 message = message + gameName;
@@ -247,16 +247,19 @@ int Client::receiveOptionFromClient() {
             }
             case 3: {
                 cout << "please choose name for new game" << endl;
-                char *gameName;
+                string gameName;
                 cin >> gameName;
                 message = "join ";
                 message = message + gameName;
                 send(message);
-
+                string checkMessage = receive();
                 cin.ignore();
-                cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-
-                waitingForInput = false;
+                //cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+                if (checkMessage == "Not valid game") {
+                    cout << checkMessage << endl;
+                } else {
+                    waitingForInput = false;
+                }
                 break;
             }
             default: {
