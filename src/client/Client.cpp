@@ -218,40 +218,40 @@ int Client::receiveOptionFromClient() {
         cin.clear();
         cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 
+        string message;
+
         switch (input) {
             case 1: {
                 cout << "please choose name for new game" << endl;
                 char *gameName;
                 cin >> gameName;
-                char massage[50];
-                strcpy(massage, "start ");
-                strcat(massage, gameName);
-                send(massage);
+                message = "start ";
+                message = message + gameName;
+                send(message);
 
                 cin.ignore();
-                cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+                //cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 
                 waitingForInput = false;
                 break;
             }
             case 2: {
-                char *massage;
-                strcpy(massage, "list_games");
-                send(massage);
+                message = "list_games";
+                send(message);
 
                 cout << endl;
                 string receivedMessage = receive();
                 cout << receivedMessage << endl;
+                cout << endl;
                 break;
             }
             case 3: {
                 cout << "please choose name for new game" << endl;
                 char *gameName;
                 cin >> gameName;
-                char massage[50];
-                strcpy(massage, "join ");
-                strcat(massage, gameName);
-                send(massage);
+                message = "join ";
+                message = message + gameName;
+                send(message);
 
                 cin.ignore();
                 cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
@@ -274,12 +274,13 @@ int Client::receiveOptionFromClient() {
 }
 
 void Client::send(string message) {
-    //char massageBuffer[50];
+    char messageBuffer[50] = {0};
     //string massageBuffer;
-    //strcpy(massageBuffer, massage);
+    strcpy(messageBuffer, message.c_str());
 
+    //messageBuffer = "list_games";
     //Write the massage into the socket.
-    long check = write(clientSocket, &message, sizeof(message));
+    long check = write(clientSocket, &messageBuffer, sizeof(messageBuffer));
     //If writing failed.
     if (check == -1) {
         throw "Error writing to server";
@@ -287,13 +288,13 @@ void Client::send(string message) {
 }
 
 string Client::receive() {
-    string receiveMessage;
+    char message[50] = {0};
     //Read massage from socket.
-    long readParam = read(clientSocket, &receiveMessage, sizeof(receiveMessage));
+    long readParam = read(clientSocket, &message, sizeof(message));
     //If reading failed.
     if (readParam == -1) {
         throw "Error reading result from socket";
     }
     //Return massage.
-    return receiveMessage;
+    return message;
 }
