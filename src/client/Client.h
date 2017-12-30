@@ -99,7 +99,7 @@ public:
 
     /**
      *
-     * @return
+     * @return hg
      */
     string receive();
 
