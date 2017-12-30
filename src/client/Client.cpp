@@ -83,7 +83,7 @@ void Client::sendMove(BoardCoordinates move) {
         moveMessage[0] = (char) move.getRow();
         moveMessage[1] = ',';
         moveMessage[2] = ' ';
-        moveMessage[3] = (char) move.getColumn();
+        moveMessage[3] = (char) move.getColumn();//
     }
 
     //Write the move coordinate to the socket.

@@ -97,6 +97,10 @@ public:
 
     void send(string message);
 
+    /**
+     *
+     * @return
+     */
     string receive();
 
     /**

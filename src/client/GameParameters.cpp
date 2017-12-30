@@ -46,7 +46,7 @@ GameParameters::GameParameters(PlayerOptions player1Type, char player1Symbol, Pl
             //Set players type- first human, second remote.
             player1Type = HumanPlayerSenderOp;
             player2Type = RemotePlayerOp;
-            int x;
+
             //Notify player that server waiting to 2nd player.
             cout << "Waiting for other player to join..." << endl;
             //Wait for another massage from server, it will be receive only after both players connected.
