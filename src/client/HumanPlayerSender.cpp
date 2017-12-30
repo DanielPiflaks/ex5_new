@@ -18,6 +18,6 @@ map<BoardCoordinates, vector<BoardCoordinates> > HumanPlayerSender::playOneTurn(
 }
 
 void HumanPlayerSender::endGameFunction() {
-    client->sendMassageToServer("End");
+    client->send("End");
     client->disconnectServer();
 }

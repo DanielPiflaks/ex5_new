@@ -30,7 +30,7 @@ Client::~Client() {
     //delete serverIP;
 }
 
-int Client::connectToServer() {
+void Client::connectToServer() {
     const char *ip = serverIP.c_str();
     //Create socket point.
     clientSocket = socket(AF_INET, SOCK_STREAM, 0);
@@ -68,16 +68,6 @@ int Client::connectToServer() {
         throw "Error connecting to server";
     }
     cout << "Connected to server" << endl;
-
-    int numberOfPlayer;
-    //Read from socket a number that notify the client his player number(if 1st or 2nd).
-    long readParam = read(clientSocket, &numberOfPlayer, sizeof(numberOfPlayer));
-    //If read from socket failed.
-    if (readParam == -1) {
-        throw "Error reading result from socket";
-    }
-    //Return client's player number.
-    return numberOfPlayer;
 }
 
 void Client::sendMove(BoardCoordinates move) {
@@ -234,10 +224,9 @@ int Client::receiveOptionFromClient() {
                 char *gameName;
                 cin >> gameName;
                 char massage[50];
-                strcpy(massage, "start <");
-                strcat(massage, ">");
+                strcpy(massage, "start ");
                 strcat(massage, gameName);
-                sendMassageToServer(massage);
+                send(massage);
 
                 cin.ignore();
                 cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
@@ -248,9 +237,11 @@ int Client::receiveOptionFromClient() {
             case 2: {
                 char *massage;
                 strcpy(massage, "list_games");
-                sendMassageToServer(massage);
+                send(massage);
 
-                waitingForInput = false;
+                cout << endl;
+                string receivedMessage = receive();
+                cout << receivedMessage << endl;
                 break;
             }
             case 3: {
@@ -258,10 +249,9 @@ int Client::receiveOptionFromClient() {
                 char *gameName;
                 cin >> gameName;
                 char massage[50];
-                strcpy(massage, "join <");
+                strcpy(massage, "join ");
                 strcat(massage, gameName);
-                strcat(massage, ">");
-                sendMassageToServer(massage);
+                send(massage);
 
                 cin.ignore();
                 cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
@@ -270,21 +260,40 @@ int Client::receiveOptionFromClient() {
                 break;
             }
             default: {
-                break;
+                cout << "Wrong input! please try again." << endl;
             }
         }
     }
+    string receivedMessage = receive();
+
+    int playerNumber;
+    //Convert string to int.
+    sscanf(receivedMessage.c_str(), "%d", &playerNumber);
+
+    return playerNumber;
 }
 
-void Client::sendMassageToServer(char *massage) {
-    char massageBuffer[50];
-
-    strcpy(massageBuffer, massage);
+void Client::send(string message) {
+    //char massageBuffer[50];
+    //string massageBuffer;
+    //strcpy(massageBuffer, massage);
 
     //Write the massage into the socket.
-    long check = write(clientSocket, &massageBuffer, sizeof(massageBuffer));
+    long check = write(clientSocket, &message, sizeof(message));
     //If writing failed.
     if (check == -1) {
         throw "Error writing to server";
     }
+}
+
+string Client::receive() {
+    string receiveMessage;
+    //Read massage from socket.
+    long readParam = read(clientSocket, &receiveMessage, sizeof(receiveMessage));
+    //If reading failed.
+    if (readParam == -1) {
+        throw "Error reading result from socket";
+    }
+    //Return massage.
+    return receiveMessage;
 }

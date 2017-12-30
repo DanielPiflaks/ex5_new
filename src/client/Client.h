@@ -35,7 +35,7 @@ public:
      * After connecting- read the client's player number.
      * @return 1 is client is first, 2 if second.
      */
-    int connectToServer();
+    void connectToServer();
 
     /**
      * Closing socket from server.
@@ -95,7 +95,9 @@ public:
      */
     int getServerPort() const;
 
-    void sendMassageToServer(char *massage);
+    void send(string message);
+
+    string receive();
 
     /**
      * print client menu of options, receive his input for chosen option.

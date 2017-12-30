@@ -59,7 +59,11 @@ ClientConnectionParam Server::start() {
     ClientConnectionParam connectionParam;
     connectionParam.serverSocket = serverSocket;
     connectionParam.clientAddress = clientAddress;
+    memset(&connectionParam.clientAddressLen, 0, sizeof(connectionParam.clientAddressLen));
     connectionParam.clientAddressLen = clientAddressLen;
+
+    //clientSocket1 = accept(serverSocket, (struct sockaddr *) &clientAddress, &clientAddressLen);
+
 
     return connectionParam;
 

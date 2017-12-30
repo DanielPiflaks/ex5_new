@@ -39,7 +39,8 @@ GameParameters::GameParameters(PlayerOptions player1Type, char player1Symbol, Pl
         //Create new client.
         client = new Client(fileName);
         //Connect and receive from server a number(1 or 2) that represent his turn (1st or 2nd).
-        int startFirstParam = client->connectToServer();
+        client->connectToServer();
+        int startFirstParam = client->receiveOptionFromClient();
         //If received 1 from server.
         if (startFirstParam == 1) {
             //Set players type- first human, second remote.

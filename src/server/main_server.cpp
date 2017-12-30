@@ -17,7 +17,6 @@ int main() {
     //Name of file with port and IP data.
     const char *fileName = "ServerConnectionSettings.txt";
 
-
     pthread_t threadWaitForClient;
 
     try {
@@ -27,10 +26,11 @@ int main() {
         HandelClientParams handelClientParams;
         handelClientParams.connectionParam = connectionParam;
         handelClientParams.commandsManager = commandsManager;
-        pthread_create(&threadWaitForClient, NULL, HandelClient::waitForClients, (void *) &handelClientParams);
+        //pthread_create(&threadWaitForClient, NULL, HandelClient::waitForClients, (void *) &handelClientParams);
+        HandelClient::waitForClients((void *) &handelClientParams);
 
         //server.start();
-        server->stop();
+        //server->stop();
     } catch (const char *msg) {
         //If something went wrong print the reason.
         cout << "Cannot start server. Reason: " << msg << endl;
