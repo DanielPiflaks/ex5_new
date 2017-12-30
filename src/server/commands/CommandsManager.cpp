@@ -18,7 +18,8 @@ CommandsManager::CommandsManager(Server *server) : server(server) {
 
 void CommandsManager::executeCommand(string
                                      command, vector<string> args) {
-    map<string, Command *>::iterator it = commandsMap.find(command);
+    map<string, Command *>::iterator it;
+    it = commandsMap.find(command);
     if (it == commandsMap.end()){
         cout << "There is no such command!";
         return;

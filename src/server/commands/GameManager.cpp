@@ -32,6 +32,10 @@ string GameManager::getStringAllOpenGames() {
         }
         allGames.append(game->second);
     }
+    if (allGames.empty()){
+        allGames = "There are no games";
+    }
+
     return allGames;
 }
 

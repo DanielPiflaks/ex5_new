@@ -223,7 +223,7 @@ void Server::stop() {
 
 string Server::receive(int clientSocket) {
     long n;
-    string message;
+    char message[50] = {0};
 
     //Read from 1st socket.
     n = read(clientSocket, &message, sizeof(message));
@@ -235,10 +235,12 @@ string Server::receive(int clientSocket) {
 }
 
 void Server::send(int clientSocket, string param) {
-    long n = write(clientSocket, &param, param.size());
+    char messageBuffer[50] = {0};
+    strcpy(messageBuffer, param.c_str());
+
+    long n = write(clientSocket, &messageBuffer, sizeof(messageBuffer));
     if (n == -1) {
-        cout << "Error writing to socket" << endl;
-        return;
+        throw "Error writing to client";
     }
 }
 

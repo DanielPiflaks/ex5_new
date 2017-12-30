@@ -18,6 +18,7 @@ void *HandelClient::waitForClients(void *handleClientParam) {
         int clientSocket = connectToClient(handelClient->connectionParam);
         HandelClientParams handleClientParam;
         handleClientParam.clientSocket = clientSocket;
+        handleClientParam.commandsManager = handelClient->commandsManager;
         pthread_t newThread;
         threadsVector.push_back(newThread);
         pthread_create(&threadsVector[threadCounter], NULL, handleClient, (void *) &handleClientParam);
@@ -48,23 +49,29 @@ void *HandelClient::handleClient(void *handleClientParam) {
 
     //Convert int to string.
     stringstream ss;
-    ss << handelClient->clientSocket << endl;
+    ss << handelClient->clientSocket;
     string clientSocketString = ss.str();
 
     args.push_back(clientSocketString);
 
-    unsigned long startArgPlace = receivedMessage.find(' ');
     string command;
-    if (startArgPlace == string::npos) {
+    if (receivedMessage.find(' ') == string::npos) {
         command = receivedMessage;
     } else {
-        command = receivedMessage.substr(0, startArgPlace - 1);
-    }
+        unsigned long startArgPlace = receivedMessage.find(' ');
+        if (startArgPlace == string::npos) {
+            command = receivedMessage;
+        } else {
+            command = receivedMessage.substr(0, startArgPlace);
+        }
 
-    string arg = receivedMessage.substr(startArgPlace + 1, receivedMessage.size());
-    args.push_back(arg);
+        string arg = receivedMessage.substr(startArgPlace + 1, receivedMessage.size());
+        args.push_back(arg);
+    }
 
     command.erase(remove_if(command.begin(), command.end(), ::isspace), command.end());
     handelClient->commandsManager->executeCommand(command, args);
 }
+
+
 
