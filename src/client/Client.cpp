@@ -243,6 +243,8 @@ int Client::receiveOptionFromClient() {
                 if (checkMessage == "Name already taken") {
                     //Print for user appropriate message.
                     cout << checkMessage << endl;
+                    disconnectServer();
+                    connectToServer();
                     //If user game name is valid.
                 } else {
                     //Change boolean variable in order to exit while loop.
@@ -289,6 +291,8 @@ int Client::receiveOptionFromClient() {
                 if (checkMessage == "Not valid game") {
                     //Print for user appropriate message.
                     cout << checkMessage << endl;
+                    disconnectServer();
+                    connectToServer();
                     //If user game name is valid.
                 } else {
                     //Change boolean variable in order to exit while loop.
