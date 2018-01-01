@@ -2,7 +2,7 @@
 Student name: Daniel Piflaks and Sapir Blutman
 Student ID: Daniel : 311322986 Sapir : 203312905
 Course Exercise Group: 05
-Exercise name: Ex3
+Exercise name: Ex5
 ******************************************/
 #ifndef EX2_PLAYER_H
 #define EX2_PLAYER_H

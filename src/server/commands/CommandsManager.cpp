@@ -1,6 +1,9 @@
-//
-// Created by danielpiflaks on 27/12/17.
-//
+/******************************************
+Student name: Daniel Piflaks and Sapir Blutman
+Student ID: Daniel : 311322986 Sapir : 203312905
+Course Exercise Group: 05
+Exercise name: Ex5
+******************************************/
 
 #include <iostream>
 #include "CommandsManager.h"
@@ -9,11 +12,20 @@
 #include "JoinGameCommand.h"
 #include "CloseGameCommand.h"
 
-CommandsManager::CommandsManager(Server *server) : server(server) {
-    commandsMap["start"] = new StartGameCommand(server);
-    commandsMap["list_games"] = new GetListGamesCommand(server);
-    commandsMap["join"] = new JoinGameCommand(server);
-    commandsMap["close"] = new CloseGameCommand(server);
+CommandsManager *CommandsManager::commandsManager = 0;
+
+CommandsManager *CommandsManager::getCommandManager() {
+    if (commandsManager == 0) {
+        commandsManager = new CommandsManager();
+    }
+    return commandsManager;
+}
+
+CommandsManager::CommandsManager(){
+    commandsMap["start"] = new StartGameCommand();
+    commandsMap["list_games"] = new GetListGamesCommand();
+    commandsMap["join"] = new JoinGameCommand();
+    commandsMap["close"] = new CloseGameCommand();
 }
 
 void CommandsManager::executeCommand(string

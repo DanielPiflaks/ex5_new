@@ -2,7 +2,7 @@
 Student name: Daniel Piflaks and Sapir Blutman
 Student ID: Daniel : 311322986 Sapir : 203312905
 Course Exercise Group: 05
-Exercise name: Ex4
+Exercise name: Ex5
 ******************************************/
 
 #ifndef EX4_SERVER_H
@@ -44,7 +44,7 @@ public:
     /**
      * Start function to open sockets for both players.
      */
-    ClientConnectionParam start();
+    void start();
 
     //static int connectToClient(ClientConnectionParam *parameters);
 
@@ -68,14 +68,12 @@ public:
 
     static string receive(int clientSocket);
 
-    void send(int clientSocket, string param);
+    static void send(int clientSocket, string param);
 private:
     int port;
     int serverSocket;
 
-    int clientSocket1;
-    int clientSocket2;
-
+    pthread_t serverThreadId;
 
     /**
      * Set port from input parameter file.

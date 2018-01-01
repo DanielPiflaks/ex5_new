@@ -2,7 +2,7 @@
 Student name: Daniel Piflaks and Sapir Blutman
 Student ID: Daniel : 311322986 Sapir : 203312905
 Course Exercise Group: 05
-Exercise name: Ex4
+Exercise name: Ex5
 ******************************************/
 
 #ifndef EX4_CLIENT_H
@@ -95,17 +95,24 @@ public:
      */
     int getServerPort() const;
 
+    /**
+     * Set message and send it to server.
+     * @param message relevant message to send.
+     */
     void send(string message);
 
     /**
-     *
-     * @return hg
+     * Receive message from server.
+     * @return relevant message.
      */
     string receive();
 
     /**
-     * print client menu of options, receive his input for chosen option.
-     * @return
+     * Print client menu of options, receive his input for chosen option
+     * and keep asking if given option input is invalid.
+     * If client ask to open new game or join one then stop asking for
+     * input and receive from server this client player turn (1 or 2).
+     * @return this client player turn (1 or 2).
      */
     int receiveOptionFromClient();
 

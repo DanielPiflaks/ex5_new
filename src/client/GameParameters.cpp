@@ -2,7 +2,7 @@
 Student name: Daniel Piflaks and Sapir Blutman
 Student ID: Daniel : 311322986 Sapir : 203312905
 Course Exercise Group: 05
-Exercise name: Ex4
+Exercise name: Ex5
 **************/
 
 #include <fstream>
@@ -52,6 +52,7 @@ GameParameters::GameParameters(PlayerOptions player1Type, char player1Symbol, Pl
             //Wait for another massage from server, it will be receive only after both players connected.
             string message = client->receive();
             int startGameNotification;
+            //Convert string to int.
             sscanf(message.c_str(), "%d", &startGameNotification);
             if (startGameNotification != 1) {
                 throw "Not valid start game notification";

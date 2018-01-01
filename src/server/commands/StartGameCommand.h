@@ -1,6 +1,9 @@
-//
-// Created by danielpiflaks on 23/12/17.
-//
+/******************************************
+Student name: Daniel Piflaks and Sapir Blutman
+Student ID: Daniel : 311322986 Sapir : 203312905
+Course Exercise Group: 05
+Exercise name: Ex5
+******************************************/
 
 #ifndef EX5_STARTGAMECOMMAND_H
 #define EX5_STARTGAMECOMMAND_H
@@ -11,11 +14,9 @@
 
 class StartGameCommand : public Command {
 public:
-    explicit StartGameCommand(Server *server);
+    explicit StartGameCommand();
 
     virtual void execute(vector<string> args);
-private:
-    Server *server;
 };
 
 

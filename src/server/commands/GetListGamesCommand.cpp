@@ -1,6 +1,9 @@
-//
-// Created by danielpiflaks on 23/12/17.
-//
+/******************************************
+Student name: Daniel Piflaks and Sapir Blutman
+Student ID: Daniel : 311322986 Sapir : 203312905
+Course Exercise Group: 05
+Exercise name: Ex5
+******************************************/
 
 #include <iostream>
 #include <cstdio>
@@ -8,7 +11,7 @@
 #include "GameManager.h"
 
 
-GetListGamesCommand::GetListGamesCommand(Server *server): server(server){};
+GetListGamesCommand::GetListGamesCommand(){};
 
 void GetListGamesCommand::execute(vector<string> args){
     //Get game manager.
@@ -21,5 +24,5 @@ void GetListGamesCommand::execute(vector<string> args){
     //Convert string to int.
     sscanf(args[0].c_str(), "%d", &clientSocket);
 
-    server->send(clientSocket, listOfGames);
+    Server::send(clientSocket, listOfGames);
 }

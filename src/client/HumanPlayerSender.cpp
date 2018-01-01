@@ -2,7 +2,7 @@
 Student name: Daniel Piflaks and Sapir Blutman
 Student ID: Daniel : 311322986 Sapir : 203312905
 Course Exercise Group: 05
-Exercise name: Ex4
+Exercise name: Ex5
 ******************************************/
 
 #include "HumanPlayerSender.h"
@@ -18,6 +18,7 @@ map<BoardCoordinates, vector<BoardCoordinates> > HumanPlayerSender::playOneTurn(
 }
 
 void HumanPlayerSender::endGameFunction() {
+    //Sent to server message for ending game.
     client->send("End");
     client->disconnectServer();
 }

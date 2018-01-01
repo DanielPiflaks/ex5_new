@@ -1,8 +1,10 @@
-//
-// Created by danielpiflaks on 29/12/17.
-//
+/******************************************
+Student name: Daniel Piflaks and Sapir Blutman
+Student ID: Daniel : 311322986 Sapir : 203312905
+Course Exercise Group: 05
+Exercise name: Ex5
+******************************************/
 
-#include <cstring>
 #include "GameManager.h"
 
 GameManager *GameManager::gameManager = 0;
@@ -49,10 +51,9 @@ bool GameManager::checkIfGameExist(string game) {
     return false;
 }
 
-void GameManager::createGame(int clientSocketToJoin, string game, Server *server) {
+void GameManager::createGame(int clientSocketToJoin, string game) {
     ParametersForGame parametersForGame;
     parametersForGame.secondPlayerSocket = clientSocketToJoin;
-    parametersForGame.server = server;
 
     for (map<int, string>::iterator existingGame = gamesToJoin.begin();
          existingGame != gamesToJoin.end(); ++existingGame) {
@@ -72,15 +73,14 @@ void *GameManager::runGame(void *gameParameters) {
     ParametersForGame *params = (struct ParametersForGame *) gameParameters;
     int firstPlayer = params->firstPlayerSocket;
     int secondPlayer = params->secondPlayerSocket;
-    Server *server = params->server;
 
     //Notify first player to start.
-    server->send(firstPlayer, "1");
+    Server::send(firstPlayer, "1");
 
     string message;
     while (true) {
         //Read from 1st socket.
-        message = server->receive(firstPlayer);
+        message = Server::receive(firstPlayer);
 
         if (message.compare(endGameMessage) == 0) {
             //If massage from socket is about game ending then stop the loop.
@@ -88,9 +88,9 @@ void *GameManager::runGame(void *gameParameters) {
         }
 
         //Write to 2nd socket.
-        server->send(secondPlayer, message);
+        Server::send(secondPlayer, message);
 
-        message = server->receive(secondPlayer);
+        message = Server::receive(secondPlayer);
 
         if (message.compare(endGameMessage) == 0) {
             //If massage from socket is about game ending then stop the loop.
@@ -98,6 +98,16 @@ void *GameManager::runGame(void *gameParameters) {
         }
 
         //Write to 1st socket.
-        server->send(firstPlayer, message);
+        Server::send(firstPlayer, message);
+    }
+}
+
+void GameManager::closeGame(string game) {
+    for (map<int, string>::iterator existingGame = gamesToJoin.begin();
+         existingGame != gamesToJoin.end(); ++existingGame) {
+        if (existingGame->second.compare(game) == 0) {
+            gamesToJoin.erase(existingGame);
+            break;
+        }
     }
 }

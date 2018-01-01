@@ -1,12 +1,15 @@
-//
-// Created by danielpiflaks on 23/12/17.
-//
+/******************************************
+Student name: Daniel Piflaks and Sapir Blutman
+Student ID: Daniel : 311322986 Sapir : 203312905
+Course Exercise Group: 05
+Exercise name: Ex5
+******************************************/
 
 #include <cstdio>
 #include "JoinGameCommand.h"
 #include "GameManager.h"
 
-JoinGameCommand::JoinGameCommand(Server *server) : server(server) {};
+JoinGameCommand::JoinGameCommand() {};
 
 void JoinGameCommand::execute(vector<string> args) {
     //First arg is client socket.
@@ -19,10 +22,10 @@ void JoinGameCommand::execute(vector<string> args) {
     //Get game manager.
     GameManager *gameManager = GameManager::getGameManager();
     if (gameManager->checkIfGameExist(wantedGameJoin)) {
-        server->send(clientSocket, "Valid Game");
-        server->send(clientSocket, "2");
-        gameManager->createGame(clientSocket, wantedGameJoin, server);
+        Server::send(clientSocket, "Valid Game");
+        Server::send(clientSocket, "2");
+        gameManager->createGame(clientSocket, wantedGameJoin);
     } else {
-        server->send(clientSocket, "Not valid game");
+        Server::send(clientSocket, "Not valid game");
     }
 }

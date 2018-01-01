@@ -208,65 +208,95 @@ int Client::receiveOptionFromClient() {
     bool waitingForInput = true;
     int input;
     while (waitingForInput) {
+        //Print menu of options to client.
         cout << "please choose one of the following options:" << endl;
         cout << "1. start new game" << endl;
         cout << "2. get list of optional games to play" << endl;
         cout << "3. join exiting game" << endl;
 
+        //Receive client input.
         cin >> input;
 
+        //Ignore all other input.
         cin.clear();
         cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 
         string message;
 
         switch (input) {
+            //If user input is 1.
             case 1: {
+                //Print order to pick up name for new game.
                 cout << "please choose name for new game" << endl;
+                //Receive client input for new game name.
                 string gameName;
                 cin >> gameName;
+                //Set relevant message.
                 message = "start ";
                 message = message + gameName;
+                //Send message to server.
                 send(message);
 
                 cin.ignore();
                 //cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 
+                //Change boolean variable in order to exit while loop.
                 waitingForInput = false;
+                //Break switch-case.
                 break;
             }
+            //If user input is 2.
             case 2: {
+                //Set relevant message.
                 message = "list_games";
+                //Send message to server.
                 send(message);
 
                 cout << endl;
+                //Receive from server list of waiting games.
                 string receivedMessage = receive();
+                //Print list of waiting games.
                 cout << receivedMessage << endl;
                 cout << endl;
+                //Break switch-case.
                 break;
             }
+            //If user input is 3.
             case 3: {
+                //Print order to pick up name for new game.
                 cout << "please choose name for new game" << endl;
+                //Receive client input for chosen game name.
                 string gameName;
                 cin >> gameName;
+                //Set relevant message.
                 message = "join ";
                 message = message + gameName;
+                //Send message to server.
                 send(message);
+                //Receive from server if game exist of games list.
                 string checkMessage = receive();
                 cin.ignore();
                 //cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+                //If server send message for invalid game.
                 if (checkMessage == "Not valid game") {
+                    //Print for user appropriate message.
                     cout << checkMessage << endl;
+                    //If user game name is valid.
                 } else {
+                    //Change boolean variable in order to exit while loop.
                     waitingForInput = false;
                 }
+                //Break switch-case.
                 break;
             }
+            //If user input is invalid.
             default: {
+                //Print for user appropriate message.
                 cout << "Wrong input! please try again." << endl;
             }
         }
-    }
+    }//End of while.
+    //Receive message from server, will be player number for new game.
     string receivedMessage = receive();
 
     int playerNumber;
@@ -277,12 +307,13 @@ int Client::receiveOptionFromClient() {
 }
 
 void Client::send(string message) {
+    //Set buffer to be empty.
     char messageBuffer[50] = {0};
-    //string massageBuffer;
+
+    //copy message to buffer.
     strcpy(messageBuffer, message.c_str());
 
-    //messageBuffer = "list_games";
-    //Write the massage into the socket.
+    //Write the message into the socket.
     long check = write(clientSocket, &messageBuffer, sizeof(messageBuffer));
     //If writing failed.
     if (check == -1) {
@@ -291,9 +322,12 @@ void Client::send(string message) {
 }
 
 string Client::receive() {
+    //Set buffer to be empty.
     char message[50] = {0};
-    //Read massage from socket.
+
+    //Read message from socket.
     long readParam = read(clientSocket, &message, sizeof(message));
+
     //If reading failed.
     if (readParam == -1) {
         throw "Error reading result from socket";

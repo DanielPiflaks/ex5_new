@@ -1,76 +1,67 @@
-//
-// Created by danielpiflaks on 27/12/17.
-//
+/******************************************
+Student name: Daniel Piflaks and Sapir Blutman
+Student ID: Daniel : 311322986 Sapir : 203312905
+Course Exercise Group: 05
+Exercise name: Ex5
+******************************************/
 
 #include <algorithm>
-#include <cstdio>
 #include <sstream>
 #include "HandelClient.h"
 
 
-void *HandelClient::waitForClients(void *handleClientParam) {
+void *HandelClient::waitForClients(void *connectionParam) {
     vector<pthread_t> threadsVector;
     int threadCounter = 0;
 
-    HandelClientParams *handelClient = (struct HandelClientParams *) handleClientParam;
+    ClientConnectionParam *params = (struct ClientConnectionParam *) connectionParam;
 
-    while (threadCounter < 15) {
-        int clientSocket = connectToClient(handelClient->connectionParam);
-        HandelClientParams handleClientParam;
-        handleClientParam.clientSocket = clientSocket;
-        handleClientParam.commandsManager = handelClient->commandsManager;
+    while (true) {
+        int clientSocket = connectToClient(params);
         pthread_t newThread;
         threadsVector.push_back(newThread);
-        pthread_create(&threadsVector[threadCounter], NULL, handleClient, (void *) &handleClientParam);
+        pthread_create(&threadsVector[threadCounter], NULL, handleClient, (void *) &clientSocket);
 
         threadCounter++;
     }
 }
 
-int HandelClient::connectToClient(ClientConnectionParam parameters) {
+int HandelClient::connectToClient(ClientConnectionParam *parameters) {
     cout << "Waiting for client connections..." << endl;
     // Accept first client.
-    int clientSocket = accept(parameters.serverSocket, (struct sockaddr *) &parameters.clientAddress,
-                              &parameters.clientAddressLen);
+    int clientSocket = accept(parameters->serverSocket, (struct sockaddr *) &parameters->clientAddress,
+                              &parameters->clientAddressLen);
     //Check that socket for first client opened correctly.
     if (clientSocket == -1) {
         throw "Error on accept";
     }
-    cout << "First client connected" << endl;
+    cout << "Client connected" << endl;
     return clientSocket;
 }
 
-void *HandelClient::handleClient(void *handleClientParam) {
-    HandelClientParams *handelClient = (struct HandelClientParams *) handleClientParam;
+void *HandelClient::handleClient(void *socket) {
+    long clientSocket = (long) socket;
 
-    string receivedMessage = Server::receive(handelClient->clientSocket);
-
-    vector<string> args;
+    string receivedMessage = Server::receive(clientSocket);
 
     //Convert int to string.
     stringstream ss;
-    ss << handelClient->clientSocket;
+    ss << clientSocket;
     string clientSocketString = ss.str();
 
-    args.push_back(clientSocketString);
-
+    istringstream iss(receivedMessage);
     string command;
-    if (receivedMessage.find(' ') == string::npos) {
-        command = receivedMessage;
-    } else {
-        unsigned long startArgPlace = receivedMessage.find(' ');
-        if (startArgPlace == string::npos) {
-            command = receivedMessage;
-        } else {
-            command = receivedMessage.substr(0, startArgPlace);
-        }
-
-        string arg = receivedMessage.substr(startArgPlace + 1, receivedMessage.size());
+    iss >> command;
+    vector<string> args;
+    args.push_back(clientSocketString);
+    while (iss) {
+        string arg;
+        iss >> arg;
         args.push_back(arg);
     }
 
     command.erase(remove_if(command.begin(), command.end(), ::isspace), command.end());
-    handelClient->commandsManager->executeCommand(command, args);
+    CommandsManager::getCommandManager()->executeCommand(command, args);
 }
 
 

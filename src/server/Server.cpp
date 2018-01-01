@@ -2,7 +2,7 @@
 Student name: Daniel Piflaks and Sapir Blutman
 Student ID: Daniel : 311322986 Sapir : 203312905
 Course Exercise Group: 05
-Exercise name: Ex4
+Exercise name: Ex5
 ******************************************/
 
 #include <sys/socket.h>
@@ -12,6 +12,7 @@ Exercise name: Ex4
 #include <iostream>
 #include <fstream>
 #include "Server.h"
+#include "HandelClient.h"
 
 #define MAX_CONNECTED_CLIENTS 30
 
@@ -23,7 +24,7 @@ Server::Server(const char *fileName) {
 Server::Server(int port) : port(port) {
 }
 
-ClientConnectionParam Server::start() {
+void Server::start() {
     //Create server socket.
     serverSocket = socket(AF_INET, SOCK_STREAM, 0);
     //Check that server socket opened properly.
@@ -64,9 +65,7 @@ ClientConnectionParam Server::start() {
 
     //clientSocket1 = accept(serverSocket, (struct sockaddr *) &clientAddress, &clientAddressLen);
 
-
-    return connectionParam;
-
+    pthread_create(&serverThreadId, NULL, &HandelClient::waitForClients, (void *) &connectionParam);
     /*cout << "Waiting for client connections..." << endl;
     // Accept first client.
     clientSocket1 = accept(serverSocket, (struct sockaddr *) &clientAddress, &clientAddressLen);
@@ -133,7 +132,7 @@ Server::StartGameAgain Server::sendAndReceiveMoves() {
     char message[7];
     while (true) {
         //Read from 1st socket.
-        n = read(clientSocket1, &message, sizeof(message));
+        //n = read(clientSocket1, &message, sizeof(message));
         //If reading failed.
         if (n == -1) {
             throw "Error reading move";
@@ -147,14 +146,14 @@ Server::StartGameAgain Server::sendAndReceiveMoves() {
         }
 
         //Write to 2nd socket.
-        long n = write(clientSocket2, &message, sizeof(message));
+        //long n = write(clientSocket2, &message, sizeof(message));
         //If writing failed.
         if (n == -1) {
             throw "Error reading move";
         }
 
         //Read from 2nd socket.
-        n = read(clientSocket2, &message, sizeof(message));
+        //n = read(clientSocket2, &message, sizeof(message));
         //If reading failed.
         if (n == -1) {
             throw "Error reading move";
@@ -168,13 +167,13 @@ Server::StartGameAgain Server::sendAndReceiveMoves() {
         }
 
         //Write to 1st socket.
-        n = write(clientSocket1, &message, sizeof(message));
+        //n = write(clientSocket1, &message, sizeof(message));
         //If writing failed.
         if (n == -1) {
             throw "Error reading move";
         }
     }
-    return EndGame;
+    //return EndGame;
 }
 
 void Server::setPortFromFile(const char *fileName) {
@@ -216,8 +215,8 @@ void Server::setPortFromFile(const char *fileName) {
 }
 
 void Server::stop() {
-    close(clientSocket1);
-    close(clientSocket2);
+    //close(clientSocket1);
+    //close(clientSocket2);
     close(serverSocket);
 }
 

@@ -1,6 +1,9 @@
-//
-// Created by danielpiflaks on 27/12/17.
-//
+/******************************************
+Student name: Daniel Piflaks and Sapir Blutman
+Student ID: Daniel : 311322986 Sapir : 203312905
+Course Exercise Group: 05
+Exercise name: Ex5
+******************************************/
 
 #ifndef EX5_COMMANDSMANAGER_H
 #define EX5_COMMANDSMANAGER_H
@@ -12,12 +15,15 @@
 
 class CommandsManager {
 public:
-    explicit CommandsManager(Server *server);
-    ~CommandsManager();
+    static CommandsManager *getCommandManager();
+
     void executeCommand(string command,
                         vector<string> args);
 private:
-    Server *server;
+    explicit CommandsManager();
+    ~CommandsManager();
+
+    static CommandsManager *commandsManager;
     map<string, Command *> commandsMap;
 };
 

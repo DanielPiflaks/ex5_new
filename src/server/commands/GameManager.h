@@ -1,6 +1,9 @@
-//
-// Created by danielpiflaks on 29/12/17.
-//
+/******************************************
+Student name: Daniel Piflaks and Sapir Blutman
+Student ID: Daniel : 311322986 Sapir : 203312905
+Course Exercise Group: 05
+Exercise name: Ex5
+******************************************/
 
 #ifndef EX5_GAMEMANAGER_H
 #define EX5_GAMEMANAGER_H
@@ -15,7 +18,6 @@ using namespace std;
 struct ParametersForGame {
     int firstPlayerSocket;
     int secondPlayerSocket;
-    Server *server;
 };
 
 class GameManager {
@@ -29,7 +31,9 @@ public:
 
     bool checkIfGameExist(string game);
 
-    void createGame(int clientSocketToJoin, string game, Server *server);
+    void createGame(int clientSocketToJoin, string game);
+
+    void closeGame(string game);
 
     static void *runGame(void *gameParameters);
 
