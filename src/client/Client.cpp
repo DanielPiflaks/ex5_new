@@ -14,6 +14,7 @@ Exercise name: Ex4
 #include <netdb.h>
 #include <limits>
 #include "Client.h"
+#include "../server/commands/GameManager.h"
 
 Client::Client(char *serverIP, int serverPort) :
         serverIP(serverIP), serverPort(serverPort), clientSocket(0) {
@@ -63,8 +64,7 @@ void Client::connectToServer() {
     serverAddress.sin_port = htons((uint16_t) serverPort);
 
     // Establish a connection with the TCP server
-    if (connect(clientSocket, (struct sockaddr
-    *) &serverAddress, sizeof(serverAddress)) == -1) {
+    if (connect(clientSocket, (struct sockaddr *) &serverAddress, sizeof(serverAddress)) == -1) {
         throw "Error connecting to server";
     }
     cout << "Connected to server" << endl;
@@ -236,16 +236,22 @@ int Client::receiveOptionFromClient() {
                 message = message + gameName;
                 //Send message to server.
                 send(message);
-
+                //Receive from server if game exist of games list.
+                string checkMessage = receive();
                 cin.ignore();
                 //cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-
-                //Change boolean variable in order to exit while loop.
-                waitingForInput = false;
+                if (checkMessage == "Name already taken") {
+                    //Print for user appropriate message.
+                    cout << checkMessage << endl;
+                    //If user game name is valid.
+                } else {
+                    //Change boolean variable in order to exit while loop.
+                    waitingForInput = false;
+                }
                 //Break switch-case.
                 break;
             }
-            //If user input is 2.
+                //If user input is 2.
             case 2: {
                 //Set relevant message.
                 message = "list_games";
@@ -263,7 +269,7 @@ int Client::receiveOptionFromClient() {
                 //Break switch-case.
                 break;
             }
-            //If user input is 3.
+                //If user input is 3.
             case 3: {
                 //Print order to pick up name for new game.
                 cout << "please choose name for new game" << endl;
@@ -291,7 +297,7 @@ int Client::receiveOptionFromClient() {
                 //Break switch-case.
                 break;
             }
-            //If user input is invalid.
+                //If user input is invalid.
             default: {
                 //Print for user appropriate message.
                 cout << "Wrong input! please try again." << endl;
