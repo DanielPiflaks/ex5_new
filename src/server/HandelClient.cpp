@@ -8,6 +8,7 @@ Exercise name: Ex5
 #include <algorithm>
 #include <sstream>
 #include "HandelClient.h"
+#include "HandelClientsThreads.h"
 
 
 void *HandelClient::waitForClients(void *connectionParam) {
@@ -20,8 +21,10 @@ void *HandelClient::waitForClients(void *connectionParam) {
         int clientSocket = connectToClient(params);
         pthread_t newThread;
         threadsVector.push_back(newThread);
-        pthread_create(&threadsVector[threadCounter], NULL, handleClient, (void *) &clientSocket);
+        pthread_create(&threadsVector[threadCounter], NULL, handleClient, (void *) clientSocket);
 
+        HandelClientsThreads::getHandleClientsThreads()->addThreadHandler(clientSocket,
+                                                                          threadsVector[threadCounter]);
         threadCounter++;
     }
 }

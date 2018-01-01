@@ -72,7 +72,7 @@ void Client::connectToServer() {
 
 void Client::sendMove(BoardCoordinates move) {
     //Create message of move in wanted format.
-    char moveMessage[7] = "";
+    char moveMessage[50] = "";
 
     //If there isn't any possible move.
     if ((move.getRow() == 0) && (move.getColumn() == 0)) {
@@ -94,7 +94,7 @@ void Client::sendMove(BoardCoordinates move) {
 }
 
 BoardCoordinates Client::receiveMove() {
-    char moveMessage[7];
+    char moveMessage[50];
     cout << "Waiting for other player's moves" << endl;
     //Read massage from socket.
     long readParam = read(clientSocket, &moveMessage, sizeof(moveMessage));

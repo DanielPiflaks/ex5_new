@@ -57,19 +57,19 @@ bool GameManager::checkIfGameExist(string game) {
 }
 
 void GameManager::createGame(int clientSocketToJoin, string game) {
-    ParametersForGame parametersForGame;
-    parametersForGame.secondPlayerSocket = clientSocketToJoin;
+    ParametersForGame* parametersForGame = new ParametersForGame;
+    parametersForGame->secondPlayerSocket = clientSocketToJoin;
 
     for (map<int, string>::iterator existingGame = gamesToJoin.begin();
          existingGame != gamesToJoin.end(); ++existingGame) {
         if (existingGame->second.compare(game) == 0) {
-            parametersForGame.firstPlayerSocket = existingGame->first;
+            parametersForGame->firstPlayerSocket = existingGame->first;
             break;
         }
     }
 
     pthread_t threadRunGame;
-    pthread_create(&threadRunGame, NULL, GameManager::runGame, (void *) &parametersForGame);
+    pthread_create(&threadRunGame, NULL, GameManager::runGame, (void *) parametersForGame);
 }
 
 void *GameManager::runGame(void *gameParameters) {
