@@ -245,7 +245,7 @@ int Client::receiveOptionFromClient() {
                 //Break switch-case.
                 break;
             }
-                //If user input is 2.
+            //If user input is 2.
             case 2: {
                 //Set relevant message.
                 message = "list_games";
@@ -258,10 +258,12 @@ int Client::receiveOptionFromClient() {
                 //Print list of waiting games.
                 cout << receivedMessage << endl;
                 cout << endl;
+                disconnectServer();
+                connectToServer();
                 //Break switch-case.
                 break;
             }
-                //If user input is 3.
+            //If user input is 3.
             case 3: {
                 //Print order to pick up name for new game.
                 cout << "please choose name for new game" << endl;
@@ -283,13 +285,13 @@ int Client::receiveOptionFromClient() {
                     cout << checkMessage << endl;
                     //If user game name is valid.
                 } else {
-                    disconnectServer();
-                    connectToServer();
+                    //Change boolean variable in order to exit while loop.
+                    waitingForInput = false;
                 }
                 //Break switch-case.
                 break;
             }
-                //If user input is invalid.
+            //If user input is invalid.
             default: {
                 //Print for user appropriate message.
                 cout << "Wrong input! please try again." << endl;
