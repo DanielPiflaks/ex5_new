@@ -250,7 +250,6 @@ int Client::receiveOptionFromClient() {
                 }
                 //Break switch-case.
                 break;
-                int c;
             }
                 //If user input is 2.
             case 2: {
