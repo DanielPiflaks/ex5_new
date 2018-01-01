@@ -10,21 +10,30 @@ Exercise name: Ex5
 #include "Server.h"
 #include "commands/CommandsManager.h"
 #include "HandelClient.h"
+#include "HandelClientsThreads.h"
+#include "commands/GameManager.h"
 
 int main() {
     //Name of file with port and IP data.
     const char *fileName = "ServerConnectionSettings.txt";
 
     try {
-        Server *server = new Server(fileName);
-        server->start();
-
+        Server server(fileName);
+        server.start();
+        cout << "Enter exit to stop server" << endl;
+        string str;
+        while (true) {
+            cin >> str;
+            if (str == "exit") {
+                server.stop();
+                break;
+            }
+        }
     } catch (const char *msg) {
         //If something went wrong print the reason.
         cout << "Cannot start server. Reason: " << msg << endl;
         exit(-1);
     }
-
     return 0;
 }
 

@@ -13,6 +13,7 @@ Exercise name: Ex5
 #include <fstream>
 #include "Server.h"
 #include "HandelClient.h"
+#include "HandelClientsThreads.h"
 
 #define MAX_CONNECTED_CLIENTS 30
 
@@ -57,7 +58,6 @@ void Server::start() {
     socklen_t clientAddressLen;
     memset(&clientAddressLen, 0, sizeof(clientAddressLen));
 
-    ClientConnectionParam connectionParam;
     connectionParam.serverSocket = serverSocket;
     connectionParam.clientAddress = clientAddress;
     memset(&connectionParam.clientAddressLen, 0, sizeof(connectionParam.clientAddressLen));
@@ -215,9 +215,10 @@ void Server::setPortFromFile(const char *fileName) {
 }
 
 void Server::stop() {
-    //close(clientSocket1);
-    //close(clientSocket2);
+    HandelClientsThreads::getHandleClientsThreads()->cancelAllThreads();
+    pthread_cancel(serverThreadId);
     close(serverSocket);
+    cout << "Server stopped" << endl;
 }
 
 string Server::receive(int clientSocket) {

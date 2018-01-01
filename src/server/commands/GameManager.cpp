@@ -8,10 +8,15 @@ Exercise name: Ex5
 #include "GameManager.h"
 
 GameManager *GameManager::gameManager = 0;
+pthread_mutex_t GameManager::lock;
 
 GameManager *GameManager::getGameManager() {
     if (gameManager == 0) {
-        gameManager = new GameManager;
+        pthread_mutex_lock(&lock);
+        if (gameManager == 0) {
+            gameManager = new GameManager();
+        }
+        pthread_mutex_unlock(&lock);
     }
     return gameManager;
 }

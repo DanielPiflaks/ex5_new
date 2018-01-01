@@ -13,15 +13,20 @@ Exercise name: Ex5
 #include "CloseGameCommand.h"
 
 CommandsManager *CommandsManager::commandsManager = 0;
+pthread_mutex_t CommandsManager::lock;
 
 CommandsManager *CommandsManager::getCommandManager() {
     if (commandsManager == 0) {
-        commandsManager = new CommandsManager();
+        pthread_mutex_lock(&lock);
+        if (commandsManager == 0) {
+            commandsManager = new CommandsManager();
+        }
+        pthread_mutex_unlock(&lock);
     }
     return commandsManager;
 }
 
-CommandsManager::CommandsManager(){
+CommandsManager::CommandsManager() {
     commandsMap["start"] = new StartGameCommand();
     commandsMap["list_games"] = new GetListGamesCommand();
     commandsMap["join"] = new JoinGameCommand();
@@ -32,7 +37,7 @@ void CommandsManager::executeCommand(string
                                      command, vector<string> args) {
     map<string, Command *>::iterator it;
     it = commandsMap.find(command);
-    if (it == commandsMap.end()){
+    if (it == commandsMap.end()) {
         cout << "There is no such command!";
         return;
     }
