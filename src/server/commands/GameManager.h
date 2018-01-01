@@ -44,6 +44,7 @@ private:
 
     static GameManager *gameManager;
     map<int, string> gamesToJoin;
+    static pthread_mutex_t lock;
 };
 
 

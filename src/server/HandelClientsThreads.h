@@ -15,11 +15,13 @@ using namespace std;
 
 class HandelClientsThreads {
 public:
-    static HandelClientsThreads *getGameManager();
+    static HandelClientsThreads *getHandleClientsThreads();
 
     void addThreadHandler(int clientSocket, pthread_t pthread);
 
     void removeThreadHandler(pthread_t pthread);
+
+    void cancelAllThreads();
 
 private:
     HandelClientsThreads() {}; // Private c'tor
@@ -28,6 +30,7 @@ private:
 
     static HandelClientsThreads *handelClientsThreads;
     map<int, pthread_t> threadsMap;
+    static pthread_mutex_t lock;
 };
 
 

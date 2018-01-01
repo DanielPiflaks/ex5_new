@@ -70,6 +70,7 @@ public:
 
     static void send(int clientSocket, string param);
 private:
+    ClientConnectionParam connectionParam;
     int port;
     int serverSocket;
 

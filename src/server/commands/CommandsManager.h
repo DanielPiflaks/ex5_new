@@ -25,6 +25,7 @@ private:
 
     static CommandsManager *commandsManager;
     map<string, Command *> commandsMap;
+    static pthread_mutex_t lock;
 };
 
 
