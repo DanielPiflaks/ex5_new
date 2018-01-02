@@ -71,8 +71,6 @@ void Game::RunSingleGame() {
     gameOverIndicator = 0;
     //Game loop. ends when both players don't have any possible moves.
     while (gameOverIndicator < 2) {
-
-        display->printMessage("Current board:");
         //Draw game board.
         display->printBoard(gameBoard);
 
@@ -104,8 +102,6 @@ void Game::RunSingleGame() {
         if (gameOverIndicator == 2) {
             break;
         }
-
-        display->printMessage("Current board:");
         //Draws game board.
         display->printBoard(gameBoard);
         //gameBoard->drawBoard();

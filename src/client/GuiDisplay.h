@@ -58,6 +58,16 @@ public:
      */
     virtual void printWinner(char playerSymbol) const = 0;
 
+    /**
+     * Printing main menu for user.
+     */
+    virtual void printMainMenu() const = 0;
+
+    /**
+     * If player choice was to play with remote player, print relevant menu.
+     */
+    virtual void printClientMenu() const = 0;
+
 };
 
 

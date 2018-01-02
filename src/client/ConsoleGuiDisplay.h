@@ -56,6 +56,16 @@ class ConsoleGuiDisplay : public GuiDisplay {
      */
     virtual void printWinner(char playerSymbol) const;
 
+    /**
+     * Printing main menu for user.
+     */
+    virtual void printMainMenu() const;
+
+    /**
+     * If player choice was to play with remote player, print relevant menu.
+     */
+    virtual void printClientMenu() const;
+
 };
 
 

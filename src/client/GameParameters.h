@@ -53,8 +53,8 @@ public:
      * @param gameLogicOption what game logic to play. by default its standart game logic.
      */
     GameParameters(PlayerOptions player1Type, char player1Symbol, PlayerOptions player2Type, char player2Symbol,
-                   int numRows, int numColumns, StartFirstOptions startFirst = Player1First,
-                   GameLogicOptions gameLogicOption = StandartGame);
+                   int numRows, int numColumns, GuiDisplay *displayOption,
+                   StartFirstOptions startFirst = Player1First, GameLogicOptions gameLogicOption = StandartGame);
 
     /**
      * Game parameter destructor.

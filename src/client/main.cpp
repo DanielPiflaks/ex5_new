@@ -7,11 +7,14 @@ Exercise name: Ex5
 #include <limits>
 #include "GameParameters.h"
 #include "Game.h"
+#include "ConsoleGuiDisplay.h"
 
 int main() {
     //Set size of game board.
     const int numberRows = 4;
     const int numberColumns = 4;
+
+    GuiDisplay *display = new ConsoleGuiDisplay();
 
     //Create bool parameter for while loop to get player wanted player.
     bool waitingForInput = true;
@@ -19,10 +22,7 @@ int main() {
     int input;
 
     while (waitingForInput) {
-        //Print menu for user.
-        cout << "choose your opponent:" << endl;
-        cout << "1. a human local player" << endl << "2. an AI player" << endl;
-        cout << "3. a remote player" << endl;
+        display->printMainMenu();
         cin >> input;
         if (input == 1) {
             //If input is 1, then the game is against local human player.
@@ -46,7 +46,7 @@ int main() {
     //Create game parameters.
     GameParameters gameParameters(GameParameters::HumanPlayerOp, 'x',
                                   GameParameters::PlayerOptions(player2Type), 'o',
-                                  numberRows, numberColumns);
+                                  numberRows, numberColumns, display);
     //Create game with those parameters.
     Game game(gameParameters);
     //Run single game.

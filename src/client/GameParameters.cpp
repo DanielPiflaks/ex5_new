@@ -15,16 +15,14 @@ Exercise name: Ex5
 #include "MiniMaxSimulator.h"
 #include "AIPlayer.h"
 #include "HumanPlayerSender.h"
-#include "ConsoleGuiDisplay.h"
 
 GameParameters::GameParameters(PlayerOptions player1Type, char player1Symbol, PlayerOptions player2Type,
-                               char player2Symbol,
-                               int numRows, int numColumns, StartFirstOptions startFirst,
-                               GameLogicOptions gameLogicOption)
+                               char player2Symbol, int numRows, int numColumns, GuiDisplay *displayOption,
+                               StartFirstOptions startFirst, GameLogicOptions gameLogicOption)
         : gameBoard(gameBoard), startFirst(startFirst) {
     //Create new game board.
     gameBoard = new Board(numRows, numColumns);
-    display = new ConsoleGuiDisplay();
+    display = displayOption;
     //Create game logic by input.
     switch (gameLogicOption) {
         case StandartGame: {
@@ -39,7 +37,7 @@ GameParameters::GameParameters(PlayerOptions player1Type, char player1Symbol, Pl
         //Set file name.
         const char *fileName = "ClientConnectionSettings.txt";
         //Create new client.
-        client = new Client(fileName);
+        client = new Client(fileName, display);
         //Connect and receive from server a number(1 or 2) that represent his turn (1st or 2nd).
         client->connectToServer();
         //if connection succeeded then print for user.

@@ -12,6 +12,7 @@ using namespace std;
 
 #include <iostream>
 #include "BoardCoordinates.h"
+#include "GuiDisplay.h"
 
 class Client {
 public:
@@ -19,14 +20,14 @@ public:
      * Client constructor if given file name,extract from file: IP, port.
      * @param fileName given file name.
      */
-    explicit Client(const char *fileName);
+    explicit Client(const char *fileName, GuiDisplay *guiDisplay);
 
     /**
      * Client constructor if given IP and port number.
      * @param serverIP server IP.
      * @param serverPort port number.
      */
-    Client(char *serverIP, int serverPort);
+    Client(char *serverIP, int serverPort, GuiDisplay *guiDisplay);
 
     ~Client();
 
@@ -100,6 +101,7 @@ private:
     string serverIP;
     int serverPort;
     int clientSocket;
+    GuiDisplay *display;
 
     string gameName;
 };

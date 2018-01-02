@@ -17,14 +17,16 @@ Exercise name: Ex4
 #include "Client.h"
 #include "../server/commands/GameManager.h"
 
-Client::Client(char *serverIP, int serverPort) :
+Client::Client(char *serverIP, int serverPort, GuiDisplay *guiDisplay) :
         serverIP(serverIP), serverPort(serverPort), clientSocket(0) {
     //serverIP = new char((strlen(serverIP)) + 1);
     strcpy(serverIP, serverIP);
+    display = guiDisplay;
 }
 
-Client::Client(const char *fileName) {
+Client::Client(const char *fileName, GuiDisplay *guiDisplay) {
     setIpAndPortFromFile(fileName);
+    display = guiDisplay;
 }
 
 Client::~Client() {
@@ -101,7 +103,8 @@ BoardCoordinates Client::receiveMove() {
     if (readParam == -1) {
         throw "Error reading result from socket";
     } else if (strcmp(moveMessage, "Opponent Disconnected")){
-        cout << "Opponent Disconnected. exiting game." << endl;
+        display->printMessage("Opponent Disconnected. exiting game.");
+        //cout << "Opponent Disconnected. exiting game." << endl;
         exit(0);
     }
     if (moveMessage == "NoMove") {
@@ -174,12 +177,12 @@ string Client::receiveOptionFromClient() {
     int input;
     string gameName;
     while (waitingForInput) {
+        display->printClientMenu();
         //Print menu of options to client.
-        cout << "please choose one of the following options:" << endl;
+        /*cout << "please choose one of the following options:" << endl;
         cout << "1. start new game" << endl;
         cout << "2. get list of optional games to play" << endl;
-        cout << "3. join exiting game" << endl;
-
+        cout << "3. join exiting game" << endl;*/
         //Receive client input.
         cin >> input;
 
@@ -193,7 +196,8 @@ string Client::receiveOptionFromClient() {
             //If user input is 1.
             case 1: {
                 //Print order to pick up name for new game.
-                cout << "please choose name for new game" << endl;
+                display->printMessage("please choose name for new game");
+                //cout << "please choose name for new game" << endl;
                 //Receive client input for new game name.
                 cin >> gameName;
                 //Set relevant message.
@@ -207,7 +211,8 @@ string Client::receiveOptionFromClient() {
                 //cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
                 if (checkMessage == "Name already taken") {
                     //Print for user appropriate message.
-                    cout << checkMessage << endl;
+                    display->printMessage(checkMessage);
+                    //cout << checkMessage << endl;
                     disconnectServer();
                     connectToServer();
                     //If user game name is valid.
@@ -225,12 +230,12 @@ string Client::receiveOptionFromClient() {
                 //Send message to server.
                 send(message);
 
-                cout << endl;
                 //Receive from server list of waiting games.
                 string receivedMessage = receive();
                 //Print list of waiting games.
-                cout << receivedMessage << endl;
-                cout << endl;
+                display->printMessage(receivedMessage);
+                //cout << receivedMessage << endl;
+                //cout << endl;
                 disconnectServer();
                 connectToServer();
                 //Break switch-case.
@@ -239,7 +244,8 @@ string Client::receiveOptionFromClient() {
                 //If user input is 3.
             case 3: {
                 //Print order to pick up name for new game.
-                cout << "please choose name for new game" << endl;
+                display->printMessage("please choose name for new game");
+                //cout << "please choose name for new game" << endl;
                 //Receive client input for chosen game name.
                 cin >> gameName;
                 //Set relevant message.
@@ -254,7 +260,8 @@ string Client::receiveOptionFromClient() {
                 //If server send message for invalid game.
                 if (checkMessage == "Not valid game") {
                     //Print for user appropriate message.
-                    cout << checkMessage << endl;
+                    display->printMessage(checkMessage);
+                    //cout << checkMessage << endl;
                     disconnectServer();
                     connectToServer();
                     //If user game name is valid.
@@ -268,7 +275,8 @@ string Client::receiveOptionFromClient() {
                 //If user input is invalid.
             default: {
                 //Print for user appropriate message.
-                cout << "Wrong input! please try again." << endl;
+                display->printMessage("Wrong input! please try again.");
+                //cout << "Wrong input! please try again." << endl;
             }
         }
     }//End of while.
