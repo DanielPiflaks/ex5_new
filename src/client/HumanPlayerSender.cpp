@@ -24,6 +24,6 @@ void HumanPlayerSender::endGameFunction() {
     client->disconnectServer();
     client->connectToServer();
     //Send to server to close wanted game.
-    client->send("Close " + gameName);
+    client->send("close " + gameName);
     client->disconnectServer();
 }

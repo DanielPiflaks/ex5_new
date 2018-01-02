@@ -22,10 +22,6 @@ void CloseGameCommand::execute(vector<string> args) {
     //Get game manager.
     GameManager *gameManager = GameManager::getGameManager();
     if (gameManager->checkIfGameExist(gameToClose)) {
-        Server::send(clientSocket, "Valid Game");
         gameManager->closeGame(gameToClose);
-    } else {
-        Server::send(clientSocket, "Not valid game");
     }
-
 }

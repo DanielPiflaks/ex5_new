@@ -168,6 +168,7 @@ int Client::getServerPort() const {
 string Client::receiveOptionFromClient() {
     bool waitingForInput = true;
     int input;
+    string gameName;
     while (waitingForInput) {
         //Print menu of options to client.
         cout << "please choose one of the following options:" << endl;
@@ -183,7 +184,6 @@ string Client::receiveOptionFromClient() {
         cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 
         string message;
-        string gameName;
 
         switch (input) {
             //If user input is 1.
@@ -237,7 +237,6 @@ string Client::receiveOptionFromClient() {
                 //Print order to pick up name for new game.
                 cout << "please choose name for new game" << endl;
                 //Receive client input for chosen game name.
-                string gameName;
                 cin >> gameName;
                 //Set relevant message.
                 message = "join ";
