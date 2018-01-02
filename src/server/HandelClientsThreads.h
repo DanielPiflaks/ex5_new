@@ -30,7 +30,10 @@ private:
 
     static HandelClientsThreads *handelClientsThreads;
     map<int, pthread_t> threadsMap;
-    static pthread_mutex_t lock;
+    static pthread_mutex_t lock1;
+    static pthread_mutex_t lock2;
+    static pthread_mutex_t lock3;
+    static pthread_mutex_t lock4;
 };
 
 

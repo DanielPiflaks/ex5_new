@@ -24,16 +24,11 @@ struct ClientConnectionParam {
 
 class Server {
 public:
-    enum StartGameAgain {
-        StartGame, EndGame
-    };
-
     /**
      * Constructor.
      * @param fileName file name with port parameter.
      */
     explicit Server(const char *fileName);
-
 
     /**
      * Constructor.
@@ -46,25 +41,10 @@ public:
      */
     void start();
 
-    //static int connectToClient(ClientConnectionParam *parameters);
-
     /**
      * Stop function to close sockets.
      */
     void stop();
-
-    /**
-     * Send message for first player that second player
-     * connected to begin the game.
-     */
-    void notifyFirstPlayerStart(int clientSocket);
-
-    /**
-     * receive message from socket1 and send it to socket2,
-     * then receive message from socket2 and send to to socket1
-     * and again the same loop.
-     */
-    StartGameAgain sendAndReceiveMoves();
 
     static string receive(int clientSocket);
 

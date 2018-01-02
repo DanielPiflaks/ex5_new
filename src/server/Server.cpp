@@ -63,117 +63,7 @@ void Server::start() {
     memset(&connectionParam.clientAddressLen, 0, sizeof(connectionParam.clientAddressLen));
     connectionParam.clientAddressLen = clientAddressLen;
 
-    //clientSocket1 = accept(serverSocket, (struct sockaddr *) &clientAddress, &clientAddressLen);
-
     pthread_create(&serverThreadId, NULL, &HandelClient::waitForClients, (void *) &connectionParam);
-    /*cout << "Waiting for client connections..." << endl;
-    // Accept first client.
-    clientSocket1 = accept(serverSocket, (struct sockaddr *) &clientAddress, &clientAddressLen);
-    //Check that socket for first client opened correctly.
-    if (clientSocket1 == -1) {
-        throw "Error on accept";
-    }
-    cout << "First client connected" << endl;*/
-
-/*    Server::StartGameAgain startGameAgain = Server::StartGame;
-    while (startGameAgain == Server::StartGame){
-        cout << "Waiting for client connections..." << endl;
-        // Accept first client.
-        clientSocket1 = accept(serverSocket, (struct sockaddr *) &clientAddress, &clientAddressLen);
-        //Check that socket for first client opened correctly.
-        if (clientSocket1 == -1) {
-            throw "Error on accept";
-        }
-        cout << "First client connected" << endl;
-
-        // Write the result back to the client.
-        long n = write(clientSocket1, &firstPlayerIndex, sizeof(firstPlayerIndex));
-        if (n == -1) {
-            cout << "Error writing to socket" << endl;
-            return;
-        }
-
-        // Accept second client.
-        clientSocket2 = accept(serverSocket, (struct sockaddr *) &clientAddress, &clientAddressLen);
-
-        if (clientSocket2 == -1) {
-            throw "Error on accept";
-        }
-        cout << "Second client connected" << endl;
-        // Write the result back to the client.
-        n = write(clientSocket2, &secondPlayerIndex, sizeof(secondPlayerIndex));
-        if (n == -1) {
-            cout << "Error writing to socket" << endl;
-            return;
-        }
-
-        notifyFirstPlayerStart();
-        startGameAgain = sendAndReceiveMoves();
-        if (startGameAgain == Server::StartGame){
-            close(clientSocket1);
-            close(clientSocket2);
-        }
-    }*/
-}
-
-void Server::notifyFirstPlayerStart(int clientSocket) {
-    const int trueParam = 1;
-    //Write to socket 1.
-    long n = write(clientSocket, &trueParam, sizeof(trueParam));
-    if (n == -1) {
-        cout << "Error writing to socket" << endl;
-        return;
-    }
-}
-
-Server::StartGameAgain Server::sendAndReceiveMoves() {
-    const char *endGameMessage = "End";
-    long n;
-    char message[7];
-    while (true) {
-        //Read from 1st socket.
-        //n = read(clientSocket1, &message, sizeof(message));
-        //If reading failed.
-        if (n == -1) {
-            throw "Error reading move";
-        } else if (n == 0) {
-            return StartGame;
-        }
-
-        if (strcmp(message, endGameMessage) == 0) {
-            //If massage from socket is about game ending then stop the loop.
-            break;
-        }
-
-        //Write to 2nd socket.
-        //long n = write(clientSocket2, &message, sizeof(message));
-        //If writing failed.
-        if (n == -1) {
-            throw "Error reading move";
-        }
-
-        //Read from 2nd socket.
-        //n = read(clientSocket2, &message, sizeof(message));
-        //If reading failed.
-        if (n == -1) {
-            throw "Error reading move";
-        } else if (n == 0) {
-            return StartGame;
-        }
-
-        if (strcmp(message, endGameMessage) == 0) {
-            //If massage from socket is about game ending then stop the loop.
-            break;
-        }
-
-        //Write to 1st socket.
-        //n = write(clientSocket1, &message, sizeof(message));
-        //If writing failed.
-        if (n == -1) {
-            throw "Error reading move";
-        }
-    }
-    //return EndGame;
 }
 
 void Server::setPortFromFile(const char *fileName) {
@@ -230,6 +120,9 @@ string Server::receive(int clientSocket) {
     //If reading failed.
     if (n == -1) {
         throw "Error reading from client.";
+    } else if (n == 0) {
+        strcpy(message, "Client disconnected");
+        cout << message << endl;
     }
     return message;
 }
@@ -243,39 +136,3 @@ void Server::send(int clientSocket, string param) {
         throw "Error writing to client";
     }
 }
-
-
-/*void *Server::waitForClients(void *clientConnectionParam) {
-    vector<pthread_t> threadsVector;
-    int threadCounter = 0;
-
-    ClientConnectionParam *connectionParam = (struct ClientConnectionParam *) clientConnectionParam;
-
-    int counter = 0;
-    while (counter < 15) {
-        int clientSocket = connectToClient(connectionParam);
-        HandelClientParam handleClientParam;
-        handleClientParam.clientSocket = clientSocket;
-        //handleClientParam.commandsManager
-        //pthread_create(&threadsVector[threadCounter], NULL, connectToClient, clientConnectionParam);
-        counter++;
-    }
-}*/
-
-/*int Server::connectToClient(ClientConnectionParam *parameters) {
-    cout << "Waiting for client connections..." << endl;
-    // Accept first client.
-    int clientSocket = accept(parameters->serverSocket, (struct sockaddr *) &parameters->clientAddress,
-                              &parameters->clientAddressLen);
-    //Check that socket for first client opened correctly.
-    if (clientSocket == -1) {
-        throw "Error on accept";
-    }
-    cout << "First client connected" << endl;
-    return clientSocket;
-}*/
-
-/*void *Server::handleClient(void *clientSocket) {
-    return NULL;
-}*/
-

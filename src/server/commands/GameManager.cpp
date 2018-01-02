@@ -8,22 +8,28 @@ Exercise name: Ex5
 #include "GameManager.h"
 
 GameManager *GameManager::gameManager = 0;
-pthread_mutex_t GameManager::lock;
+pthread_mutex_t GameManager::lock1;
+pthread_mutex_t GameManager::lock2;
+pthread_mutex_t GameManager::lock3;
+pthread_mutex_t GameManager::lock4;
+pthread_mutex_t GameManager::lock5;
 
 GameManager *GameManager::getGameManager() {
     if (gameManager == 0) {
-        pthread_mutex_lock(&lock);
+        pthread_mutex_lock(&lock1);
         if (gameManager == 0) {
             gameManager = new GameManager();
         }
-        pthread_mutex_unlock(&lock);
+        pthread_mutex_unlock(&lock1);
     }
     return gameManager;
 }
 
 
 void GameManager::addGame(int clientSocket, string gameName) {
+    pthread_mutex_lock(&lock2);
     gamesToJoin[clientSocket] = gameName;
+    pthread_mutex_unlock(&lock2);
 }
 
 string GameManager::getStringAllOpenGames() {
@@ -33,14 +39,20 @@ string GameManager::getStringAllOpenGames() {
     for (map<int, string>::iterator game = gamesToJoin.begin();
          game != gamesToJoin.end(); ++game) {
         if (!firstIter) {
+            pthread_mutex_lock(&lock3);
             allGames.append(separator);
+            pthread_mutex_unlock(&lock3);
         } else {
             firstIter = false;
         }
+        pthread_mutex_lock(&lock3);
         allGames.append(game->second);
+        pthread_mutex_unlock(&lock3);
     }
     if (allGames.empty()) {
+        pthread_mutex_lock(&lock3);
         allGames = "There are no games";
+        pthread_mutex_unlock(&lock3);
     }
 
     return allGames;
@@ -75,6 +87,7 @@ void GameManager::createGame(int clientSocketToJoin, string game) {
 
 void *GameManager::runGame(void *gameParameters) {
     const string endGameMessage = "End";
+    const string clientDisconnectedMessage = "Client disconnected";
 
     ParametersForGame *params = (struct ParametersForGame *) gameParameters;
     int firstPlayer = params->firstPlayerSocket;
@@ -90,6 +103,12 @@ void *GameManager::runGame(void *gameParameters) {
 
         if (message.compare(endGameMessage) == 0) {
             //If massage from socket is about game ending then stop the loop.
+            delete params;
+            break;
+        } else if (message.compare(clientDisconnectedMessage) == 0) {
+            Server::send(secondPlayer, "Opponent Disconnected");
+            delete params;
+            close(secondPlayer);
             break;
         }
 
@@ -100,6 +119,12 @@ void *GameManager::runGame(void *gameParameters) {
 
         if (message.compare(endGameMessage) == 0) {
             //If massage from socket is about game ending then stop the loop.
+            delete params;
+            break;
+        } else if (message.compare(clientDisconnectedMessage) == 0) {
+            Server::send(firstPlayer, "Opponent Disconnected");
+            delete params;
+            close(firstPlayer);
             break;
         }
 

@@ -20,6 +20,8 @@ int main() {
     try {
         Server server(fileName);
         server.start();
+        //Wait so it won't be printed when thread print it's message.
+        sleep(0.2);
         cout << "Enter exit to stop server" << endl;
         string str;
         while (true) {

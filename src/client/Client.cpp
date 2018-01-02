@@ -13,6 +13,7 @@ Exercise name: Ex4
 #include <fstream>
 #include <netdb.h>
 #include <limits>
+#include <cstdlib>
 #include "Client.h"
 #include "../server/commands/GameManager.h"
 
@@ -99,6 +100,9 @@ BoardCoordinates Client::receiveMove() {
     //If reading failed.
     if (readParam == -1) {
         throw "Error reading result from socket";
+    } else if (strcmp(moveMessage, "Opponent Disconnected")){
+        cout << "Opponent Disconnected. exiting game." << endl;
+        exit(0);
     }
     if (moveMessage == "NoMove") {
         return BoardCoordinates(0, 0);
