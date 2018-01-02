@@ -39,7 +39,7 @@ string GameManager::getStringAllOpenGames() {
         }
         allGames.append(game->second);
     }
-    if (allGames.empty()){
+    if (allGames.empty()) {
         allGames = "There are no games";
     }
 
@@ -57,7 +57,7 @@ bool GameManager::checkIfGameExist(string game) {
 }
 
 void GameManager::createGame(int clientSocketToJoin, string game) {
-    ParametersForGame* parametersForGame = new ParametersForGame;
+    ParametersForGame *parametersForGame = new ParametersForGame;
     parametersForGame->secondPlayerSocket = clientSocketToJoin;
 
     for (map<int, string>::iterator existingGame = gamesToJoin.begin();
@@ -67,6 +67,7 @@ void GameManager::createGame(int clientSocketToJoin, string game) {
             break;
         }
     }
+    closeGame(game);
 
     pthread_t threadRunGame;
     pthread_create(&threadRunGame, NULL, GameManager::runGame, (void *) parametersForGame);

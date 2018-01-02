@@ -33,6 +33,7 @@ GameParameters::GameParameters(PlayerOptions player1Type, char player1Symbol, Pl
         }
     }
 
+    string gameName;
     //If one of players defined as remote player.
     if ((player1Type == RemotePlayerOp) || (player2Type == RemotePlayerOp)) {
         //Set file name.
@@ -43,7 +44,16 @@ GameParameters::GameParameters(PlayerOptions player1Type, char player1Symbol, Pl
         client->connectToServer();
         //if connection succeeded then print for user.
         display->printMessage("Connected to server");
-        int startFirstParam = client->receiveOptionFromClient();
+
+        gameName = client->receiveOptionFromClient();
+
+        //Receive message from server, will be player number for new game.
+        string receivedMessage = client->receive();
+
+        int startFirstParam;
+        //Convert string to int.
+        sscanf(receivedMessage.c_str(), "%d", &startFirstParam);
+
         //If received 1 from server.
         if (startFirstParam == 1) {
             //Set players type- first human, second remote.
@@ -85,11 +95,11 @@ GameParameters::GameParameters(PlayerOptions player1Type, char player1Symbol, Pl
             break;
         }
         case RemotePlayerOp: {
-            player1 = new RemotePlayer(player1Symbol, gameBoard, gameLogic, client, display);
+            player1 = new RemotePlayer(player1Symbol, gameBoard, gameLogic, display, client, gameName);
             break;
         }
         case HumanPlayerSenderOp: {
-            player1 = new HumanPlayerSender(player1Symbol, gameBoard, gameLogic, client, display);
+            player1 = new HumanPlayerSender(player1Symbol, gameBoard, gameLogic, display, client, gameName);
             break;
         }
         default:
@@ -107,11 +117,11 @@ GameParameters::GameParameters(PlayerOptions player1Type, char player1Symbol, Pl
             break;
         }
         case RemotePlayerOp: {
-            player2 = new RemotePlayer(player2Symbol, gameBoard, gameLogic, client, display);
+            player2 = new RemotePlayer(player2Symbol, gameBoard, gameLogic, display, client, gameName);
             break;
         }
         case HumanPlayerSenderOp: {
-            player2 = new HumanPlayerSender(player2Symbol, gameBoard, gameLogic, client, display);
+            player2 = new HumanPlayerSender(player2Symbol, gameBoard, gameLogic, display, client, gameName);
             break;
         }
         default:

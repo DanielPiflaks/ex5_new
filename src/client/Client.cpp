@@ -111,19 +111,6 @@ BoardCoordinates Client::receiveMove() {
     }
 }
 
-int Client::getStartGameNotification() {
-    int startParamNotify;
-    //Read massage from socket.
-    long readParam = read(clientSocket, &startParamNotify, sizeof(startParamNotify));
-    //If reading failed.
-    if (readParam == -1) {
-        throw "Error reading result from socket";
-    }
-    //Return massage.
-    return startParamNotify;
-}
-
-
 void Client::setIpAndPortFromFile(const char *fileName) {
     //Set const sub string as expected.
     const string ipSubString = "IP:";
@@ -178,7 +165,7 @@ int Client::getServerPort() const {
     return serverPort;
 }
 
-int Client::receiveOptionFromClient() {
+string Client::receiveOptionFromClient() {
     bool waitingForInput = true;
     int input;
     while (waitingForInput) {
@@ -196,6 +183,7 @@ int Client::receiveOptionFromClient() {
         cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 
         string message;
+        string gameName;
 
         switch (input) {
             //If user input is 1.
@@ -203,7 +191,6 @@ int Client::receiveOptionFromClient() {
                 //Print order to pick up name for new game.
                 cout << "please choose name for new game" << endl;
                 //Receive client input for new game name.
-                string gameName;
                 cin >> gameName;
                 //Set relevant message.
                 message = "start ";
@@ -282,14 +269,7 @@ int Client::receiveOptionFromClient() {
             }
         }
     }//End of while.
-    //Receive message from server, will be player number for new game.
-    string receivedMessage = receive();
-
-    int playerNumber;
-    //Convert string to int.
-    sscanf(receivedMessage.c_str(), "%d", &playerNumber);
-
-    return playerNumber;
+    return gameName;
 }
 
 void Client::send(string message) {

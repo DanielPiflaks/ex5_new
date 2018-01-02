@@ -18,9 +18,10 @@ Exercise name: Ex5
  */
 class HumanPlayerSender : public HumanPlayer {
 public:
-    HumanPlayerSender(char symbol, Board *board, GameLogic *gameLogic, Client *client, GuiDisplay *guiDisplay) :
-            HumanPlayer(symbol, board, gameLogic, guiDisplay) {
+    HumanPlayerSender(char symbol, Board *board, GameLogic *gameLogic, GuiDisplay *display, Client *client, string gameName) :
+            HumanPlayer(symbol, board, gameLogic, display) {
         this->client = client;
+        this->gameName = gameName;
     };
 
     /**
@@ -43,6 +44,8 @@ public:
 
 private:
     Client *client;
+    GuiDisplay *display;
+    string gameName;
 };
 
 

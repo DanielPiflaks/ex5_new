@@ -20,5 +20,7 @@ map<BoardCoordinates, vector<BoardCoordinates> > HumanPlayerSender::playOneTurn(
 void HumanPlayerSender::endGameFunction() {
     //Sent to server message for ending game.
     client->send("End");
+    //Send to server to close wanted game.
+    client->send("Close " + gameName);
     client->disconnectServer();
 }

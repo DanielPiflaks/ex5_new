@@ -58,14 +58,6 @@ public:
     BoardCoordinates receiveMove();
 
     /**
-     * After the 1st client connect to socket the server waits for 2nd client.
-     * After both connected then server sends to socket 1, in order that 1st client
-     * will read it and will notify to start the game.
-     * @return 1 if both client connected.
-     */
-    int getStartGameNotification();
-
-    /**
      * Open file, read from it IP address and port.
      * @param fileName the name of file that we will read IP and port from.
      */
@@ -100,14 +92,16 @@ public:
      * and keep asking if given option input is invalid.
      * If client ask to open new game or join one then stop asking for
      * input and receive from server this client player turn (1 or 2).
-     * @return this client player turn (1 or 2).
+     * @return client selected game.
      */
-    int receiveOptionFromClient();
+    string receiveOptionFromClient();
 
 private:
     string serverIP;
     int serverPort;
     int clientSocket;
+
+    string gameName;
 };
 
 
