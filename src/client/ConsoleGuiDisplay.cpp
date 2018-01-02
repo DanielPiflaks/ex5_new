@@ -61,7 +61,7 @@ void ConsoleGuiDisplay::printPossibleMoves(vector<BoardCoordinates> possibleMove
 }
 
 void ConsoleGuiDisplay::printScore(char playerSymbol, int playerScore) const {
-    cout << "Player " << playerSymbol << " score is:" << playerScore << endl;
+    cout << "Player " << playerSymbol << " score is: " << playerScore << endl;
 }
 
 void ConsoleGuiDisplay::printWinner(char playerSymbol) const {

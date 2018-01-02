@@ -50,18 +50,6 @@ public:
     void sendMove(BoardCoordinates move);
 
     /**
-     * Create and send to socket massage in order to notify
-     * the server that the game ended.
-     */
-    //void sendEndGameMessage();
-
-    /**
-     * Create and send to socket massage in order to notify
-     * the other player that this player has no moves.
-     */
-    //void sendNoPossibleMovesMessage();
-
-    /**
     *Read massage from socket about other player latest move.
     * If massage state that there isn't move- return neutral coordinate (0,0).
      * Else, convert the massage into coordinate.

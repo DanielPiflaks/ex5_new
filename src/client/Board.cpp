@@ -45,19 +45,6 @@ void Board::freeBoardMatrix() {
 }
 
 void Board::putSymbolOnBoard(int row, int column, char symbol) {
-
-    /*if ((row < 0) || (row > numRows)) {
-        cout << "Invalid row number." << endl;
-        if ((column < 0) || (column > numCols)) {
-            cout << "Invalid column number." << endl;
-        }
-    } else {
-        if ((column < 0) || (column > numCols)) {
-            cout << "Invalid column number." << endl;
-        } else {
-            boardMatrix[row - 1][column - 1] = symbol;
-        }
-    }*/
     boardMatrix[row - 1][column - 1] = symbol;
 }
 

@@ -166,30 +166,6 @@ void Client::setIpAndPortFromFile(const char *fileName) {
     }
 }
 
-/*void Client::sendEndGameMessage() {
-    //Create message of move in wanted format.
-    char endGameBuffer[7] = "End";
-
-    //Write the massage into the socket.
-    long check = write(clientSocket, &endGameBuffer, sizeof(endGameBuffer));
-    //If writing failed.
-    if (check == -1) {
-        throw "Error writing row coordinate";
-    }
-}*/
-
-/*void Client::sendNoPossibleMovesMessage() {
-    //Create message of move in wanted format.
-    char noMoveBuffer[7] = "NoMove";
-
-    //Write the massage into the socket.
-    long check = write(clientSocket, &noMoveBuffer, sizeof(noMoveBuffer));
-    //If writing failed.
-    if (check == -1) {
-        throw "Error writing row coordinate";
-    }
-}*/
-
 void Client::disconnectServer() {
     close(clientSocket);
 }
