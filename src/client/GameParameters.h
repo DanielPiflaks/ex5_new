@@ -7,12 +7,14 @@ Exercise name: Ex5
 
 #ifndef EX2_GAMECREATOR_H
 #define EX2_GAMECREATOR_H
+
 using namespace std;
 
 #include "Board.h"
 #include "Player.h"
 #include "GameLogic.h"
 #include "Client.h"
+#include "GuiDisplay.h"
 
 
 class GameParameters {
@@ -83,6 +85,8 @@ public:
      */
     StartFirstOptions getStartFirst() const;
 
+    GuiDisplay *getGuiDisplay() const;
+
 
 private:
     Board *gameBoard;
@@ -91,6 +95,7 @@ private:
     Player *player1;
     Player *player2;
     Client *client;
+    GuiDisplay *display;
 };
 
 #endif //EX2_GAMECREATOR_H

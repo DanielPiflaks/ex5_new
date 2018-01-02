@@ -18,8 +18,8 @@ Exercise name: Ex5
  */
 class HumanPlayerSender : public HumanPlayer {
 public:
-    HumanPlayerSender(char symbol, Board *board, GameLogic *gameLogic, Client *client) :
-            HumanPlayer(symbol, board, gameLogic) {
+    HumanPlayerSender(char symbol, Board *board, GameLogic *gameLogic, Client *client, GuiDisplay *guiDisplay) :
+            HumanPlayer(symbol, board, gameLogic, guiDisplay) {
         this->client = client;
     };
 

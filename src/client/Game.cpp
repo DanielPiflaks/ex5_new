@@ -12,6 +12,8 @@ Game::Game(GameParameters &gameParameters) : gameBoard(gameBoard) {
     gameBoard = gameParameters.getGameBoard();
     //Get enum who start first.
     GameParameters::StartFirstOptions startFirstOptions = gameParameters.getStartFirst();
+    //Initialize gui display.
+    display = gameParameters.getGuiDisplay();
     //Initialize players by who start first options.
     switch (startFirstOptions) {
         case GameParameters::Player1First: {
@@ -70,10 +72,9 @@ void Game::RunSingleGame() {
     //Game loop. ends when both players don't have any possible moves.
     while (gameOverIndicator < 2) {
 
-        cout << "Current board:" << endl;
-        cout << endl;
+        display->printMessage("Current board:");
         //Draw game board.
-        gameBoard->drawBoard();
+        display->printBoard(gameBoard);
 
         //Play one turn.
         mapOfLastMove = firstPlayer->playOneTurn();
@@ -104,10 +105,10 @@ void Game::RunSingleGame() {
             break;
         }
 
-        cout << "Current board:" << endl;
-        cout << endl;
+        display->printMessage("Current board:");
         //Draws game board.
-        gameBoard->drawBoard();
+        display->printBoard(gameBoard);
+        //gameBoard->drawBoard();
         //Play one turn.
         mapOfLastMove = secondPlayer->playOneTurn();
         //Check if map of moves is not empty.
@@ -135,18 +136,19 @@ void Game::RunSingleGame() {
     //Notice server that game ended.
     endPlayer->endGameFunction();
     //Print player 1 score.
-    cout << "Player " << firstPlayer->getSymbol() << " score is:" << firstPlayer->getScore() << endl;
+    display->printScore(firstPlayer->getSymbol(), firstPlayer->getScore());
     //Print player 2 score.
-    cout << "Player " << secondPlayer->getSymbol() << " score is:" << secondPlayer->getScore() << endl;
+    display->printScore(secondPlayer->getSymbol(), secondPlayer->getScore());
 
-    cout << "Game result is:";
+    display->printMessage("Game result is:");
     //Check who won and print the result.
     if (firstPlayer->getScore() > secondPlayer->getScore()) {
-        cout << "Player " << firstPlayer->getSymbol() << " wins!" << endl;
+        display->printWinner(firstPlayer->getSymbol());
     } else if (firstPlayer->getScore() < secondPlayer->getScore()) {
-        cout << "Player " << secondPlayer->getSymbol() << " wins!" << endl;
+
+        display->printWinner(secondPlayer->getSymbol());
     } else {
-        cout << "It's a tie!" << endl;
+        display->printMessage("It's a tie!");
     }
 }
 

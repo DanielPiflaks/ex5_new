@@ -67,7 +67,6 @@ void Client::connectToServer() {
     if (connect(clientSocket, (struct sockaddr *) &serverAddress, sizeof(serverAddress)) == -1) {
         throw "Error connecting to server";
     }
-    cout << "Connected to server" << endl;
 }
 
 void Client::sendMove(BoardCoordinates move) {
@@ -95,7 +94,6 @@ void Client::sendMove(BoardCoordinates move) {
 
 BoardCoordinates Client::receiveMove() {
     char moveMessage[50];
-    cout << "Waiting for other player's moves" << endl;
     //Read massage from socket.
     long readParam = read(clientSocket, &moveMessage, sizeof(moveMessage));
     //If reading failed.
