@@ -48,16 +48,14 @@ map<BoardCoordinates, vector<BoardCoordinates> > AIPlayer::playOneTurn() {
         //Get flipped symbols vector.
         flippedSymbols = gameLogic->flipSymbols(possibleMoves,
                                                 wantedMove, getSymbol());
-        cout << endl;
-        //Print what computer player has played.
-        cout << getSymbol() << " Played" << wantedMove << endl;
-        cout << endl;
+        //Print computer player last move.
+        display->printOtherPlayerMove(getSymbol(), wantedMove);
+
         //Return all flipped symbols.
         playerMove.insert(pair<BoardCoordinates, vector<BoardCoordinates> >(playerChosenMove, flippedSymbols));
         return playerMove;
     } else {
-        cout << "No possible moves." << endl;
-        cout << endl;
+        display->printMessage("No possible moves.");
         //Return empty vector.
         return playerMove;
     }

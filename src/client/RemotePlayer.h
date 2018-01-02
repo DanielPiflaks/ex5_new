@@ -21,8 +21,8 @@ public:
      * @param gameLogic game logic to play by.
      * @param client client.
      */
-    RemotePlayer(char symbol, Board *board, GameLogic *gameLogic, Client *client) :
-            Player(symbol, board, gameLogic) {
+    RemotePlayer(char symbol, Board *board, GameLogic *gameLogic, Client *client, GuiDisplay *guiDisplay) :
+            Player(symbol, board, gameLogic, guiDisplay) {
         this->client = client;
     };
 

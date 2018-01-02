@@ -7,8 +7,8 @@ Exercise name: Ex5
 
 #include "Player.h"
 
-Player::Player(char symbol, Board *board, GameLogic *gameLogic) : symbol(symbol),
-                                                                  board(board), gameLogic(gameLogic) {}
+Player::Player(char symbol, Board *board, GameLogic *gameLogic, GuiDisplay *guiDisplay) :
+        symbol(symbol), board(board), gameLogic(gameLogic), display(guiDisplay) {}
 
 Player::~Player() {
 

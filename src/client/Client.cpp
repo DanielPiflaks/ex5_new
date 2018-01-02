@@ -67,7 +67,6 @@ void Client::connectToServer() {
     if (connect(clientSocket, (struct sockaddr *) &serverAddress, sizeof(serverAddress)) == -1) {
         throw "Error connecting to server";
     }
-    cout << "Connected to server" << endl;
 }
 
 void Client::sendMove(BoardCoordinates move) {
@@ -95,7 +94,6 @@ void Client::sendMove(BoardCoordinates move) {
 
 BoardCoordinates Client::receiveMove() {
     char moveMessage[50];
-    cout << "Waiting for other player's moves" << endl;
     //Read massage from socket.
     long readParam = read(clientSocket, &moveMessage, sizeof(moveMessage));
     //If reading failed.
@@ -168,30 +166,6 @@ void Client::setIpAndPortFromFile(const char *fileName) {
     }
 }
 
-/*void Client::sendEndGameMessage() {
-    //Create message of move in wanted format.
-    char endGameBuffer[7] = "End";
-
-    //Write the massage into the socket.
-    long check = write(clientSocket, &endGameBuffer, sizeof(endGameBuffer));
-    //If writing failed.
-    if (check == -1) {
-        throw "Error writing row coordinate";
-    }
-}*/
-
-/*void Client::sendNoPossibleMovesMessage() {
-    //Create message of move in wanted format.
-    char noMoveBuffer[7] = "NoMove";
-
-    //Write the massage into the socket.
-    long check = write(clientSocket, &noMoveBuffer, sizeof(noMoveBuffer));
-    //If writing failed.
-    if (check == -1) {
-        throw "Error writing row coordinate";
-    }
-}*/
-
 void Client::disconnectServer() {
     close(clientSocket);
 }
@@ -243,6 +217,8 @@ int Client::receiveOptionFromClient() {
                 if (checkMessage == "Name already taken") {
                     //Print for user appropriate message.
                     cout << checkMessage << endl;
+                    disconnectServer();
+                    connectToServer();
                     //If user game name is valid.
                 } else {
                     //Change boolean variable in order to exit while loop.
@@ -289,6 +265,8 @@ int Client::receiveOptionFromClient() {
                 if (checkMessage == "Not valid game") {
                     //Print for user appropriate message.
                     cout << checkMessage << endl;
+                    disconnectServer();
+                    connectToServer();
                     //If user game name is valid.
                 } else {
                     //Change boolean variable in order to exit while loop.

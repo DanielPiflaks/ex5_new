@@ -12,6 +12,7 @@ using namespace std;
 #include <algorithm>
 #include "Board.h"
 #include "GameLogic.h"
+#include "GuiDisplay.h"
 
 class Player {
 public:
@@ -21,7 +22,7 @@ public:
      * @param board
      * @param gameLogic
      */
-    Player(char symbol, Board *board, GameLogic *gameLogic);
+    Player(char symbol, Board *board, GameLogic *gameLogic, GuiDisplay *guiDisplay);
 
     /**
      * Player destructor.
@@ -81,6 +82,7 @@ protected:
     Board *board;
     vector<BoardCoordinates> playerMoves;
     GameLogic *gameLogic;
+    GuiDisplay *display;
 };
 
 

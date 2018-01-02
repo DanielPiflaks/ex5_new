@@ -18,7 +18,8 @@ public:
      * @param board board to play on.
      * @param gameLogic game logic to play by.
      */
-    HumanPlayer(char symbol, Board *board, GameLogic *gameLogic) : Player(symbol, board, gameLogic) {};
+    HumanPlayer(char symbol, Board *board, GameLogic *gameLogic, GuiDisplay *guiDisplay) :
+            Player(symbol, board, gameLogic, guiDisplay) {};
 
 
     /**

@@ -10,13 +10,14 @@ Exercise name: Ex5
 
 int main() {
     //Set size of game board.
-    const int numberRows = 8;
-    const int numberColumns = 8;
+    const int numberRows = 4;
+    const int numberColumns = 4;
 
     //Create bool parameter for while loop to get player wanted player.
     bool waitingForInput = true;
     GameParameters::PlayerOptions player2Type;
     int input;
+
     while (waitingForInput) {
         //Print menu for user.
         cout << "choose your opponent:" << endl;

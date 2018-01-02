@@ -37,42 +37,6 @@ Board::Board(const Board &oldBoard) {
     }
 }
 
-
-/************************************************************************
-function name: drawBoard.
-The Input: none.
-The output: none.
-The Function operation: Draws board.
-*************************************************************************/
-void Board::drawBoard() const {
-    //Print columns.
-    for (int j = 0; j <= numCols; j++) {
-        if (j == 0) {
-            cout << " | ";
-        } else {
-            cout << j << " | ";
-        }
-    }
-    cout << endl;
-
-    //Print rows.
-    for (int i = 1; i <= numRows; i++) {
-        for (int k = 0; k < (numCols * 4) + 2; ++k) {
-            cout << "-";
-        }
-        cout << endl;
-        cout << i << "|";
-        for (int j = 1; j <= numCols; j++) {
-            cout << " " << boardMatrix[i - 1][j - 1] << " |";
-        }
-        cout << endl;
-    }
-    for (int k = 0; k < (numCols * 4) + 2; ++k) {
-        cout << "-";
-    }
-    cout << endl;
-}
-
 void Board::freeBoardMatrix() {
     for (int i = 0; i < numCols; ++i) {
         delete[] boardMatrix[i];
@@ -81,19 +45,7 @@ void Board::freeBoardMatrix() {
 }
 
 void Board::putSymbolOnBoard(int row, int column, char symbol) {
-
-    if ((row < 0) || (row > numRows)) {
-        cout << "Invalid row number." << endl;
-        if ((column < 0) || (column > numCols)) {
-            cout << "Invalid column number." << endl;
-        }
-    } else {
-        if ((column < 0) || (column > numCols)) {
-            cout << "Invalid column number." << endl;
-        } else {
-            boardMatrix[row - 1][column - 1] = symbol;
-        }
-    }
+    boardMatrix[row - 1][column - 1] = symbol;
 }
 
 Board::~Board() {

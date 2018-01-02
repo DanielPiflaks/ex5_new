@@ -20,9 +20,8 @@ public:
     * @param board board to play on.
     * @param gameLogic game logic to play by.
     */
-    AIPlayer(char symbol, Board *board, GameLogic *gameLogic, MiniMaxSimulator *wantedSimulator)
-            : Player(symbol, board,
-                     gameLogic) { simulator = wantedSimulator; };
+    AIPlayer(char symbol, Board *board, GameLogic *gameLogic, MiniMaxSimulator *wantedSimulator, GuiDisplay *guiDisplay)
+            : Player(symbol, board, gameLogic, guiDisplay) { simulator = wantedSimulator; };
 
     /**
      * Destructor.

@@ -44,6 +44,7 @@ private:
     Board *gameBoard;
     Player *firstPlayer;
     Player *secondPlayer;
+    GuiDisplay *display;
 };
 
 #endif //EX2_GAME_H

@@ -30,7 +30,7 @@ public:
     ~Board();
 
     //Draws board.
-    void drawBoard() const;
+    //void drawBoard() const;
 
     //Take symbol and put it on board in wanted row and column.
     void putSymbolOnBoard(int row, int column, char symbol);
