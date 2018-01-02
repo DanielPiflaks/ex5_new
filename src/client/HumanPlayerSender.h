@@ -44,7 +44,6 @@ public:
 
 private:
     Client *client;
-    GuiDisplay *display;
     string gameName;
 };
 

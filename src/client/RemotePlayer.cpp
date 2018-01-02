@@ -12,7 +12,7 @@ RemotePlayer::~RemotePlayer() {
 
 map<BoardCoordinates, vector<BoardCoordinates> > RemotePlayer::playOneTurn() {
     //Print who it's turn to play.
-    display->printPlayerTurn(getSymbol());
+    display->printPlayerTurn(symbol);
     //Get map of all possible moves.
     map<BoardCoordinates, vector<BoardCoordinates> > possibleMoves = gameLogic->getPossibleGameMoves(playerMoves,
                                                                                                      symbol);
@@ -43,14 +43,14 @@ map<BoardCoordinates, vector<BoardCoordinates> > RemotePlayer::playOneTurn() {
 
     if (board->isOnBoard(playerChoice.getRow(), playerChoice.getColumn())) {
         //Print data massage about opponent last move.
-        display->printOtherPlayerMove(getSymbol(), playerChoice);
+        display->printOtherPlayerMove(symbol, playerChoice);
     } else {
         display->printMessage("Player has no possible moves");
     }
 
     //Get flipped symbols vector.
     flippedSymbols = gameLogic->flipSymbols(possibleMoves,
-                                            playerChoice, getSymbol());
+                                            playerChoice, symbol);
     //Return them.
     playerMove.insert(pair<BoardCoordinates, vector<BoardCoordinates> >(playerChoice, flippedSymbols));
     return playerMove;
