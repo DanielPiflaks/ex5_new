@@ -15,17 +15,45 @@ using namespace std;
 
 class HandelClientsThreads {
 public:
+    /**
+     * Return handle clients threads vector.
+     * @return  handle client threads vector.
+     */
     static HandelClientsThreads *getHandleClientsThreads();
 
+    /**
+     * Adding thread handler with wanted client socket to map.
+     * @param clientSocket client socket to add.
+     * @param pthread thread to add.
+     */
     void addThreadHandler(int clientSocket, pthread_t pthread);
 
+    /**
+     * Removes thread handler from map.
+     * @param pthread wanted thread to remove.
+     */
     void removeThreadHandler(pthread_t pthread);
 
+    /**
+     * Removes all threads.
+     */
     void cancelAllThreads();
 
 private:
-    HandelClientsThreads() {}; // Private c'tor
-    HandelClientsThreads(const HandelClientsThreads &copy); // Private copy c'tor
+    /**
+     * Constructor
+     */
+    HandelClientsThreads() {};
+
+    /**
+     * Copy constructor
+     * @param copy handleclientsThreads to copy.
+     */
+    HandelClientsThreads(const HandelClientsThreads &copy);
+
+    /**
+     * Destructor.
+     */
     ~HandelClientsThreads() {};
 
     static HandelClientsThreads *handelClientsThreads;

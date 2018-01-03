@@ -46,9 +46,20 @@ public:
      */
     void stop();
 
+    /**
+     * Receive message from given client socket.
+     * @param clientSocket client socket to listen to.
+     * @return message from client.
+     */
     static string receive(int clientSocket);
 
+    /**
+     * Send given string to given client socket.
+     * @param clientSocket to send message to.
+     * @param param string to send.
+     */
     static void send(int clientSocket, string param);
+
 private:
     ClientConnectionParam connectionParam;
     int port;

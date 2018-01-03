@@ -19,14 +19,17 @@ int main() {
 
     try {
         Server server(fileName);
+        //Start server.
         server.start();
         //Wait so it won't be printed when thread print it's message.
         sleep(0.2);
         cout << "Enter exit to stop server" << endl;
         string str;
+        //Wait until user wants to stop server.
         while (true) {
             cin >> str;
             if (str == "exit") {
+                //Stop server.
                 server.stop();
                 break;
             }

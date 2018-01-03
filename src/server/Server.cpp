@@ -33,9 +33,6 @@ void Server::start() {
         throw "Error opening socket";
     }
 
-    //Create index for first and second players.
-    const int firstPlayerIndex = 1;
-    const int secondPlayerIndex = 2;
     //Create server address.
     struct sockaddr_in serverAddress;
     memset(&serverAddress, 0, sizeof(serverAddress));
@@ -58,11 +55,12 @@ void Server::start() {
     socklen_t clientAddressLen;
     memset(&clientAddressLen, 0, sizeof(clientAddressLen));
 
+    //Create connection params to handle clients connection.
     connectionParam.serverSocket = serverSocket;
     connectionParam.clientAddress = clientAddress;
     memset(&connectionParam.clientAddressLen, 0, sizeof(connectionParam.clientAddressLen));
     connectionParam.clientAddressLen = clientAddressLen;
-
+    //Create thread to wait for clients connections.
     pthread_create(&serverThreadId, NULL, &HandelClient::waitForClients, (void *) &connectionParam);
 }
 
@@ -115,12 +113,13 @@ string Server::receive(int clientSocket) {
     long n;
     char message[50] = {0};
 
-    //Read from 1st socket.
+    //Read from socket.
     n = read(clientSocket, &message, sizeof(message));
     //If reading failed.
     if (n == -1) {
         throw "Error reading from client.";
     } else if (n == 0) {
+        //Checks if client disconnected and prints it.
         strcpy(message, "Client disconnected");
         cout << message << endl;
     }
@@ -130,9 +129,13 @@ string Server::receive(int clientSocket) {
 void Server::send(int clientSocket, string param) {
     char messageBuffer[50] = {0};
     strcpy(messageBuffer, param.c_str());
-
+    //Send message.
     long n = write(clientSocket, &messageBuffer, sizeof(messageBuffer));
     if (n == -1) {
         throw "Error writing to client";
+    } else if (n == 0) {
+        //Checks if client disconnected and prints it.
+        strcpy(messageBuffer, "Client disconnected");
+        cout << messageBuffer << endl;
     }
 }

@@ -15,14 +15,24 @@ Exercise name: Ex5
 class HandelClient {
 public:
     /**
-     *
-     * @param connectionParam
-     * @return
+     *Waits for clients connection.
+     * @param connectionParam connection parameters to accomplish connection.
+     * @return null.
      */
     static void *waitForClients(void *connectionParam);
 
+    /**
+     * Handles client.
+     * @param socket socket to handle client.
+     * @return null.
+     */
     static void *handleClient(void *socket);
 
+    /**
+     * Connect to client.
+     * @param parameters connection parameters.
+     * @return client socket.
+     */
     static int connectToClient(ClientConnectionParam *parameters);
 };
 

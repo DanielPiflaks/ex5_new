@@ -22,7 +22,7 @@ public:
     static CommandsManager *getCommandManager();
 
     /**
-     *
+     *Execute input command with input args.
      * @param command
      * @param args
      */
@@ -30,8 +30,14 @@ public:
                         vector<string> args);
 
 private:
+    /**
+     * Constructor.
+     */
     explicit CommandsManager();
 
+    /**
+     * Destructor.
+     */
     ~CommandsManager();
 
     static CommandsManager *commandsManager;
