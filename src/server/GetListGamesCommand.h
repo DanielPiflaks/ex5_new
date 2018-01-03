@@ -5,19 +5,19 @@ Course Exercise Group: 05
 Exercise name: Ex5
 ******************************************/
 
-#ifndef EX5_CLOSEGAMECOMMAND_H
-#define EX5_CLOSEGAMECOMMAND_H
+#ifndef EX5_GETLISTGAMESCOMMAND_H
+#define EX5_GETLISTGAMESCOMMAND_H
 
 
 #include "Command.h"
-#include "../Server.h"
+#include "Server.h"
 
-class CloseGameCommand : public Command {
+class GetListGamesCommand : public Command {
 public:
     /**
      * Constructor.
      */
-    explicit CloseGameCommand();
+    explicit GetListGamesCommand();
 
     /**
      * Execute the command.
@@ -28,4 +28,4 @@ public:
 };
 
 
-#endif //EX5_CLOSEGAMECOMMAND_H
+#endif //EX5_GETLISTGAMESCOMMAND_H

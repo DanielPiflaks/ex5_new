@@ -11,7 +11,7 @@ Exercise name: Ex5
 #include <sys/param.h>
 #include <iostream>
 #include <map>
-#include "../Server.h"
+#include "Server.h"
 
 using namespace std;
 

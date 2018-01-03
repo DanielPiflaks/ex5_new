@@ -5,19 +5,19 @@ Course Exercise Group: 05
 Exercise name: Ex5
 ******************************************/
 
-#ifndef EX5_STARTGAMECOMMAND_H
-#define EX5_STARTGAMECOMMAND_H
+#ifndef EX5_CLOSEGAMECOMMAND_H
+#define EX5_CLOSEGAMECOMMAND_H
 
 
 #include "Command.h"
-#include "../Server.h"
+#include "Server.h"
 
-class StartGameCommand : public Command {
+class CloseGameCommand : public Command {
 public:
     /**
      * Constructor.
      */
-    explicit StartGameCommand();
+    explicit CloseGameCommand();
 
     /**
      * Execute the command.
@@ -28,4 +28,4 @@ public:
 };
 
 
-#endif //EX5_STARTGAMECOMMAND_H
+#endif //EX5_CLOSEGAMECOMMAND_H

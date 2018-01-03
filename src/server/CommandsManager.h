@@ -11,7 +11,7 @@ Exercise name: Ex5
 
 #include <map>
 #include "Command.h"
-#include "../Server.h"
+#include "Server.h"
 
 class CommandsManager {
 public:

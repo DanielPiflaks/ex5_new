@@ -7,9 +7,12 @@ Exercise name: Ex5
 
 #include <algorithm>
 #include <sstream>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <cstring>
+#include <iostream>
 #include "HandelClient.h"
 #include "HandelClientsThreads.h"
-
 
 void *HandelClient::waitForClients(void *connectionParam) {
     vector<pthread_t> threadsVector;
@@ -73,6 +76,7 @@ void *HandelClient::handleClient(void *socket) {
     command.erase(remove_if(command.begin(), command.end(), ::isspace), command.end());
     //Execute command.
     CommandsManager::getCommandManager()->executeCommand(command, args);
+
 }
 
 

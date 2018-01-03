@@ -8,10 +8,10 @@ Exercise name: Ex5
 #include <iostream>
 #include <cstdlib>
 #include "Server.h"
-#include "commands/CommandsManager.h"
+#include "CommandsManager.h"
 #include "HandelClient.h"
 #include "HandelClientsThreads.h"
-#include "commands/GameManager.h"
+#include "GameManager.h"
 
 int main() {
     //Name of file with port and IP data.

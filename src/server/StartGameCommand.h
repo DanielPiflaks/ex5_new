@@ -5,19 +5,19 @@ Course Exercise Group: 05
 Exercise name: Ex5
 ******************************************/
 
-#ifndef EX5_JOINGAMECOMMAND_H
-#define EX5_JOINGAMECOMMAND_H
+#ifndef EX5_STARTGAMECOMMAND_H
+#define EX5_STARTGAMECOMMAND_H
 
 
 #include "Command.h"
-#include "../Server.h"
+#include "Server.h"
 
-class JoinGameCommand : public Command {
+class StartGameCommand : public Command {
 public:
     /**
      * Constructor.
      */
-    explicit JoinGameCommand();
+    explicit StartGameCommand();
 
     /**
      * Execute the command.
@@ -28,4 +28,4 @@ public:
 };
 
 
-#endif //EX5_JOINGAMECOMMAND_H
+#endif //EX5_STARTGAMECOMMAND_H

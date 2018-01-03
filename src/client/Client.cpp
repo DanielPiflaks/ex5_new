@@ -15,7 +15,7 @@ Exercise name: Ex5
 #include <limits>
 #include <cstdlib>
 #include "Client.h"
-#include "../server/commands/GameManager.h"
+#include "../server/GameManager.h"
 
 Client::Client(char *serverIP, int serverPort, GuiDisplay *guiDisplay) :
         serverIP(serverIP), serverPort(serverPort), clientSocket(0) {

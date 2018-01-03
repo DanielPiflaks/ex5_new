@@ -9,7 +9,7 @@ Exercise name: Ex5
 #define EX5_HANDELCLIENT_H
 
 #include "Server.h"
-#include "commands/CommandsManager.h"
+#include "CommandsManager.h"
 #include <iostream>
 
 class HandelClient {
