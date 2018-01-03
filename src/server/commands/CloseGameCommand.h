@@ -14,8 +14,16 @@ Exercise name: Ex5
 
 class CloseGameCommand : public Command {
 public:
+    /**
+     * Constructor.
+     */
     explicit CloseGameCommand();
 
+    /**
+     * Execute the command.
+     * @param args vector of command- first is client socket,
+     * second is command args.
+     */
     virtual void execute(vector<string> args);
 };
 

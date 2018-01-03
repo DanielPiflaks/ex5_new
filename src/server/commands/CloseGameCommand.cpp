@@ -17,10 +17,12 @@ void CloseGameCommand::execute(vector<string> args) {
     //Convert string to int.
     sscanf(args[0].c_str(), "%d", &clientSocket);
 
+    //Second arg is string name to close.
     string gameToClose = args[1];
 
     //Get game manager.
     GameManager *gameManager = GameManager::getGameManager();
+    //Check if game name to close is exist.
     if (gameManager->checkIfGameExist(gameToClose)) {
         gameManager->closeGame(gameToClose);
     }

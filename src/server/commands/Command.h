@@ -12,9 +12,19 @@ Exercise name: Ex5
 #include <string>
 
 using namespace std;
+
 class Command {
 public:
+    /**
+     * Execute the command.
+     * @param args vector of command- first is client socket,
+     * second is command args.
+     */
     virtual void execute(vector<string> args) = 0;
+
+    /**
+     * D'constructor.
+     */
     virtual ~Command() {}
 };
 

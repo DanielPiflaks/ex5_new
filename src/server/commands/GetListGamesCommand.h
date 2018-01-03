@@ -14,9 +14,17 @@ Exercise name: Ex5
 
 class GetListGamesCommand : public Command {
 public:
+    /**
+     * Constructor.
+     */
     explicit GetListGamesCommand();
 
-    virtual void execute(vector <string> args);
+    /**
+     * Execute the command.
+     * @param args vector of command- first is client socket,
+     * second is command args.
+     */
+    virtual void execute(vector<string> args);
 };
 
 

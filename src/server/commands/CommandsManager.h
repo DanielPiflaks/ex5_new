@@ -15,12 +15,23 @@ Exercise name: Ex5
 
 class CommandsManager {
 public:
+    /**
+     * Get command manager.
+     * @return
+     */
     static CommandsManager *getCommandManager();
 
+    /**
+     *
+     * @param command
+     * @param args
+     */
     void executeCommand(string command,
                         vector<string> args);
+
 private:
     explicit CommandsManager();
+
     ~CommandsManager();
 
     static CommandsManager *commandsManager;

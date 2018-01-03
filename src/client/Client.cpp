@@ -2,7 +2,7 @@
 Student name: Daniel Piflaks and Sapir Blutman
 Student ID: Daniel : 311322986 Sapir : 203312905
 Course Exercise Group: 05
-Exercise name: Ex4
+Exercise name: Ex5
 **************/
 
 #include <sys/socket.h>
@@ -102,7 +102,7 @@ BoardCoordinates Client::receiveMove() {
     //If reading failed.
     if (readParam == -1) {
         throw "Error reading result from socket";
-    } else if (strcmp(moveMessage, "Opponent Disconnected")){
+    } else if (strcmp(moveMessage, "Opponent Disconnected")) {
         display->printMessage("Opponent Disconnected. exiting game.");
         //cout << "Opponent Disconnected. exiting game." << endl;
         exit(0);

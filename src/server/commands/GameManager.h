@@ -21,8 +21,11 @@ struct ParametersForGame {
 };
 
 class GameManager {
-
 public:
+    /**
+     * Get game manager.
+     * @return
+     */
     static GameManager *getGameManager();
 
     void addGame(int clientSocket, string gameName);
