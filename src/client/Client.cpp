@@ -102,9 +102,11 @@ BoardCoordinates Client::receiveMove() {
     //If reading failed.
     if (readParam == -1) {
         throw "Error reading result from socket";
-    } else if (strcmp(moveMessage, "Opponent Disconnected")) {
+    } else if (strcmp(moveMessage, "Opponent Disconnected") == 0) {
         display->printMessage("Opponent Disconnected. exiting game.");
-        //cout << "Opponent Disconnected. exiting game." << endl;
+        exit(0);
+    } else if (readParam == 0) {
+        display->printMessage("Server disconnected");
         exit(0);
     }
     if (moveMessage == "NoMove") {
@@ -178,11 +180,6 @@ string Client::receiveOptionFromClient() {
     string gameName;
     while (waitingForInput) {
         display->printClientMenu();
-        //Print menu of options to client.
-        /*cout << "please choose one of the following options:" << endl;
-        cout << "1. start new game" << endl;
-        cout << "2. get list of optional games to play" << endl;
-        cout << "3. join exiting game" << endl;*/
         //Receive client input.
         cin >> input;
 
@@ -197,7 +194,6 @@ string Client::receiveOptionFromClient() {
             case 1: {
                 //Print order to pick up name for new game.
                 display->printMessage("please choose name for new game");
-                //cout << "please choose name for new game" << endl;
                 //Receive client input for new game name.
                 cin >> gameName;
                 //Set relevant message.
@@ -308,6 +304,9 @@ string Client::receive() {
     //If reading failed.
     if (readParam == -1) {
         throw "Error reading result from socket";
+    } else if (readParam == 0) {
+        display->printMessage("Server disconnected");
+        exit(0);
     }
     //Return massage.
     return message;

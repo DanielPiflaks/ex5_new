@@ -12,29 +12,22 @@ Exercise name: Ex5
 #include <cstring>
 #include <iostream>
 #include "HandelClient.h"
-#include "HandelClientsThreads.h"
+
 
 void *HandelClient::waitForClients(void *connectionParam) {
     vector<pthread_t> threadsVector;
-    int threadCounter = 0;
+    //int threadCounter = 0;
 
     //Get client connection params.
     ClientConnectionParam *params = (struct ClientConnectionParam *) connectionParam;
+    ThreadPool * threadPool = params->threadPool;
 
     //Get all connection and assign thread to handle it's requests.
     while (true) {
-        //Get client socket after it connected to it.
         int clientSocket = connectToClient(params);
-        pthread_t newThread;
-        //Add new thread to vector.
-        threadsVector.push_back(newThread);
-        //Create thread to handle client.
-        pthread_create(&threadsVector[threadCounter], NULL, handleClient, (void *) (intptr_t) clientSocket);
 
-        //Add handle client to list/
-        HandelClientsThreads::getHandleClientsThreads()->addThreadHandler(clientSocket,
-                                                                          threadsVector[threadCounter]);
-        threadCounter++;
+        Task *handleClient = new Task(HandelClient::handleClient, (void *) (intptr_t) clientSocket);
+        threadPool->addTask(handleClient);
     }
 }
 

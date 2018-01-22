@@ -72,9 +72,9 @@ bool GameManager::checkIfGameExist(string game) {
     //Check if input game exist.
     for (map<int, string>::iterator existingGame = gamesToJoin.begin();
          existingGame != gamesToJoin.end(); ++existingGame) {
-        pthread_mutex_lock(&lock5);
+        //pthread_mutex_lock(&lock5);
         if (existingGame->second.compare(game) == 0) {
-            pthread_mutex_unlock(&lock5);
+            //pthread_mutex_unlock(&lock5);
             return true;
         }
     }
@@ -99,9 +99,8 @@ void GameManager::createGame(int clientSocketToJoin, string game) {
     //Close game so other players won't get into this game.
     closeGame(game);
 
-    pthread_t threadRunGame;
     //Create thread to run game.
-    pthread_create(&threadRunGame, NULL, GameManager::runGame, (void *) parametersForGame);
+    GameManager::runGame(parametersForGame);
 }
 
 void *GameManager::runGame(void *gameParameters) {

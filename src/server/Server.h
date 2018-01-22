@@ -13,6 +13,7 @@ Exercise name: Ex5
 #include <netinet/in.h>
 #include <unistd.h>
 #include <string>
+#include "ThreadPool.h"
 
 using namespace std;
 
@@ -20,6 +21,7 @@ struct ClientConnectionParam {
     int serverSocket;
     struct sockaddr_in clientAddress;
     socklen_t clientAddressLen;
+    ThreadPool *threadPool;
 };
 
 class Server {
@@ -28,13 +30,13 @@ public:
      * Constructor.
      * @param fileName file name with port parameter.
      */
-    explicit Server(const char *fileName);
+    explicit Server(const char *fileName, int numberOfThreads);
 
     /**
      * Constructor.
      * @param port port number.
      */
-    explicit Server(int port);
+    explicit Server(int port, int numberOfThreads);
 
     /**
      * Start function to open sockets for both players.
@@ -64,7 +66,7 @@ private:
     ClientConnectionParam connectionParam;
     int port;
     int serverSocket;
-
+    ThreadPool *threadPool;
     pthread_t serverThreadId;
 
     /**

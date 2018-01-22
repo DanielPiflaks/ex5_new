@@ -14,6 +14,8 @@ Exercise name: Ex5
 class GuiDisplay {
 public:
 
+    virtual ~GuiDisplay() {}
+
     /**
     * Print board.
     * @param board current board.

@@ -175,4 +175,5 @@ GameParameters::~GameParameters() {
     delete player1;
     delete player2;
     delete client;
+    delete display;
 }

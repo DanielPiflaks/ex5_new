@@ -10,15 +10,15 @@ Exercise name: Ex5
 #include "Server.h"
 #include "CommandsManager.h"
 #include "HandelClient.h"
-#include "HandelClientsThreads.h"
 #include "GameManager.h"
 
 int main() {
+    const int threadNumbers = 5;
     //Name of file with port and IP data.
     const char *fileName = "ServerConnectionSettings.txt";
 
     try {
-        Server server(fileName);
+        Server server(fileName, threadNumbers);
         //Start server.
         server.start();
         //Wait so it won't be printed when thread print it's message.

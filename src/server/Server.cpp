@@ -13,16 +13,15 @@ Exercise name: Ex5
 #include <fstream>
 #include "Server.h"
 #include "HandelClient.h"
-#include "HandelClientsThreads.h"
 
-#define MAX_CONNECTED_CLIENTS 30
-
-Server::Server(const char *fileName) {
+Server::Server(const char *fileName, int numberOfThreads) {
     //Set port from parameter file.
     setPortFromFile(fileName);
+    threadPool = new ThreadPool(numberOfThreads);
 }
 
-Server::Server(int port) : port(port) {
+Server::Server(int port, int numberOfThreads) : port(port) {
+    threadPool = new ThreadPool(numberOfThreads);
 }
 
 void Server::start() {
@@ -46,7 +45,7 @@ void Server::start() {
     }
 
     // Start listening to incoming connections
-    if (listen(serverSocket, MAX_CONNECTED_CLIENTS) < 0) {
+    if (listen(serverSocket, SOMAXCONN) < 0) {
         throw "Error listening";
     }
 
@@ -60,6 +59,7 @@ void Server::start() {
     connectionParam.clientAddress = clientAddress;
     memset(&connectionParam.clientAddressLen, 0, sizeof(connectionParam.clientAddressLen));
     connectionParam.clientAddressLen = clientAddressLen;
+    connectionParam.threadPool = threadPool;
     //Create thread to wait for clients connections.
     pthread_create(&serverThreadId, NULL, &HandelClient::waitForClients, (void *) &connectionParam);
 }
@@ -103,8 +103,9 @@ void Server::setPortFromFile(const char *fileName) {
 }
 
 void Server::stop() {
-    HandelClientsThreads::getHandleClientsThreads()->cancelAllThreads();
+    //HandelClientsThreads::getHandleClientsThreads()->cancelAllThreads();
     pthread_cancel(serverThreadId);
+    threadPool->terminate();
     close(serverSocket);
     cout << "Server stopped" << endl;
 }

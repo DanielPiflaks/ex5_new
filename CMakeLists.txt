@@ -12,7 +12,7 @@ set(TESTS_FILES_CLIENT src/client/tests/MiniMaxSimulatorTest.cpp src/client/test
 set(SOURCE_FILES_SERVER  src/server/Server.cpp src/server/Server.h src/server/Command.h src/server/StartGameCommand.cpp src/server/StartGameCommand.h src/server/GetListGamesCommand.cpp src/server/GetListGamesCommand.h src/server/JoinGameCommand.cpp src/server/JoinGameCommand.h src/server/CloseGameCommand.cpp src/server/CloseGameCommand.h src/server/CommandsManager.cpp src/server/CommandsManager.h src/server/GameManager.cpp src/server/GameManager.h)
 set(TESTS_FILES_SERVER src/server/tests/ReadPortFromFileTest.cpp)
 
-add_executable(ex5_server ${SOURCE_FILES_SERVER} src/server/main_server.cpp src/server/HandelClient.cpp src/server/HandelClient.h src/server/HandelClientsThreads.cpp src/server/HandelClientsThreads.h)
+add_executable(ex5_server ${SOURCE_FILES_SERVER} src/server/main_server.cpp src/server/HandelClient.cpp src/server/HandelClient.h src/server/Task.h src/server/ThreadPool.cpp src/server/ThreadPool.h)
 add_executable(ex5_client ${SOURCE_FILES_CLIENT} src/client/main.cpp)
 add_executable(ex5_tests_Client ${SOURCE_FILES_CLIENT} ${TESTS_FILES_CLIENT} src/client/tests/gtest_main.cpp)
 add_executable(ex5_tests_Server ${SOURCE_FILES_SERVER} ${TESTS_FILES_SERVER} src/server/tests/gtest_main.cpp)
